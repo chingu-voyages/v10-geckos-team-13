@@ -17,21 +17,40 @@ class Map extends Component {
       lat: 5.4342245,
       lng: 100.3919285,
     },
-    haveUsersLocation: false,
+    hasUsersLocation: false,
     zoom: 2
   };
 
   // If geolocation service is available, ask for user's permission to get current location, and set map's location
+  // If permission denied, get approximate location through ip address using https://ipapi.co/json api
   componentDidMount() {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
-        });
-      });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.setState({
+            location: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            hasUsersLocation: true,
+            zoom: 18
+          });
+        },
+        (err) => {
+          fetch('https://ipapi.co/json')
+            .then(res => res.json())
+            .then(location => {
+              this.setState({
+                location: {
+                  lat: location.latitude,
+                  lng: location.longitude
+                },
+                hasUsersLocation: true,
+                zoom: 8
+              });
+            });
+        }
+      );
     }
   }
 
@@ -43,11 +62,14 @@ class Map extends Component {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position} icon={baseMarker}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {
+          this.state.hasUsersLocation ? 
+          <Marker position={position} icon={baseMarker}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker> : ''
+        }
       </LeafletMap>
     );
   }
