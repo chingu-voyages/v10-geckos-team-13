@@ -10,7 +10,7 @@ class Panel extends Component {
 
   render() {
     const restaurants = Restaurants.getRestaurants();
-    const defaultRestaurant = restaurants[0];
+    const defaultRestaurant = restaurants[2];
 
     return (
       <div className="Panel">

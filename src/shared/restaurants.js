@@ -29,25 +29,25 @@ const restaurants = [
     "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
     { lat: 5.4304579, lng: 100.3908978},
     "http://www.royaltea.com.my/",
-    ["/assets/images/royaltea-menu.jpg", "/assets/images/royaltea-menu.jpg"]
-  ),
-  new Restaurant(
-    "Royaltea",
-    "/assets/images/royaltea-restaurant.jpg",
-    ["Weekdays 10am-10pm", "Weekends 8am-2am"],
-    "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
-    { lat: 5.4304579, lng: 100.3908978},
-    "http://www.royaltea.com.my/",
     ["/assets/images/royaltea-menu.jpg"]
   ),
   new Restaurant(
-    "Royaltea",
-    "/assets/images/royaltea-restaurant.jpg",
+    "La Taste",
+    "/assets/images/lataste-restaurant.jpg",
     ["Weekdays 10am-10pm", "Weekends 8am-2am"],
-    "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
-    { lat: 5.4304579, lng: 100.3908978},
-    "http://www.royaltea.com.my/",
-    ["/assets/images/royaltea-menu.jpg"]
+    "65, Lorong Teras Jaya 2, Kawasan Perniagaan Teras Jaya, 13400 Butterworth, Pulau Pinang",
+    { lat: 5.4342738, lng: 100.3899578},
+    "https://www.facebook.com/La-Taste-Butterworth-2037314776536491/",
+    ["/assets/images/lataste-menu-1.jpg", "/assets/images/lataste-menu-2.jpg"]
+  ),
+  new Restaurant(
+    "Raku Ichi",
+    "/assets/images/rakuichi-restaurant.jpg",
+    ["Weekdays 10am-10pm", "Weekends 8am-2am"],
+    "4, Lorong Teras 2, Kawasan Perniagaan Teras Jaya, 13400 Butterworth, Pulau Pinang",
+    { lat: 5.434253, lng: 100.3878743},
+    "https://www.facebook.com/rakumaruramen/",
+    ["/assets/images/rakuichi-menu-1.jpeg", "/assets/images/rakuichi-menu-2.jpeg", "/assets/images/rakuichi-menu-3.jpeg"]
   )
 ];
 
