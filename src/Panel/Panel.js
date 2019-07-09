@@ -4,6 +4,7 @@ import './Panel.css';
 import Restaurants from '../shared/restaurants';
 
 import RestaurantDescription from './RestaurantDescription/RestaurantDescription';
+import SearchResults from './SearchResults/SearchResults';
 
 class Panel extends Component {
 
@@ -14,10 +15,13 @@ class Panel extends Component {
 
     return (
       <div className="Panel">
-        <RestaurantDescription restaurant={defaultRestaurant}/>
+        <SearchResults restaurantsList = {restaurants}/>
       </div>
     );
   }
 }
 
 export default Panel
+
+// 
+// <RestaurantDescription restaurant = {defaultRestaurant}/>
