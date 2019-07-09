@@ -10,6 +10,7 @@ class Restaurant {
    * @param {string[]} menuImgs 
    */
   constructor(name = '', imgUrl = '', openingHours = [], address = '', coords = { lat: NaN, lng: NaN}, website = '', menuImgs = []) {
+    this.id = Math.floor(Math.random()*10000);
     this.name = name;
     this.imgUrl = imgUrl;
     this.openingHours = openingHours;
@@ -23,39 +24,43 @@ class Restaurant {
 const restaurants = [
   new Restaurant(
     "Royaltea",
-    "src/assets/images/royaltea-restaurant.jpg",
+    "/assets/images/royaltea-restaurant.jpg",
     ["Weekdays 10am-10pm", "Weekends 8am-2am"],
     "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
     { lat: 5.4304579, lng: 100.3908978},
     "http://www.royaltea.com.my/",
-    ["src/assets/images/royaltea-menu.jpg"]
+    ["/assets/images/royaltea-menu.jpg", "/assets/images/royaltea-menu.jpg"]
   ),
   new Restaurant(
     "Royaltea",
-    "src/assets/images/royaltea-restaurant.jpg",
+    "/assets/images/royaltea-restaurant.jpg",
     ["Weekdays 10am-10pm", "Weekends 8am-2am"],
     "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
     { lat: 5.4304579, lng: 100.3908978},
     "http://www.royaltea.com.my/",
-    ["src/assets/images/royaltea-menu.jpg"]
+    ["/assets/images/royaltea-menu.jpg"]
   ),
   new Restaurant(
     "Royaltea",
-    "src/assets/images/royaltea-restaurant.jpg",
+    "/assets/images/royaltea-restaurant.jpg",
     ["Weekdays 10am-10pm", "Weekends 8am-2am"],
     "2, Lorong Mesra Permai 6, Taman Mesra Permai, 13400 Butterworth, Pulau Pinang",
     { lat: 5.4304579, lng: 100.3908978},
     "http://www.royaltea.com.my/",
-    ["src/assets/images/royaltea-menu.jpg"]
+    ["/assets/images/royaltea-menu.jpg"]
   )
 ];
 
 class Restaurants {
-  getRestaurants() {
+  static getRestaurant(id) {
+    return restaurants.find(restaurant => restaurant.id === id);
+  }
+
+  static getRestaurants() {
     return restaurants.slice();
   }
 
-  addRestaurant(restaurant) {
+  static addRestaurant(restaurant) {
     restaurants.push(restaurant);
   }
 }
