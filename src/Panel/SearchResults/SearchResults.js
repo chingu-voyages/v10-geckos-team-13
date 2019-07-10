@@ -9,7 +9,7 @@ class SearchResults extends Component {
       <div className="SearchResults">
         <h3>Search Results</h3>
         {this.props.restaurantsList.map(restaurant => {
-          return <SearchResultsItem restaurant = {restaurant}/>
+          return <SearchResultsItem key={restaurant.id} restaurant = {restaurant}/>
         })}
       </div>
     );

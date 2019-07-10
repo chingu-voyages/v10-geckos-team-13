@@ -1,3 +1,5 @@
+import L from 'leaflet';
+
 class Restaurant {
   /**
    * Restaurant Constructor
