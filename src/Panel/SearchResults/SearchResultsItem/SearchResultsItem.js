@@ -5,7 +5,7 @@ class SearchResultsItem extends Component {
   render() {
     const restaurant = this.props.restaurant;
     return (
-      <div className="SearchResultsItem">
+      <div className="SearchResultsItem" onClick={this.props.handleClicked}>
         <div className = "SearchResultsItem__container--1 img-overflow">
           <img 
             className="SearchResultsItem__img"

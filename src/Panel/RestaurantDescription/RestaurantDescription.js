@@ -7,6 +7,7 @@ class RestaurantDescription extends Component {
     const restaurant = this.props.restaurant;
     return (
       <div className="RestaurantDescription">
+        <button onClick={this.props.handleBack}>back</button>
         <h2>{restaurant.name}</h2>
         <img 
           src={restaurant.imgUrl} 

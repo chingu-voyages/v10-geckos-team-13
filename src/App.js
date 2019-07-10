@@ -6,8 +6,12 @@ import Panel from './Panel/Panel';
 import Navbar from './Navbar/Navbar';
 
 class App extends Component {
-  state = {
-    selectedRestaurant: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedRestaurant: null
+    }
+    this.handleSelected = this.handleSelected.bind(this);
   }
 
   handleSelected(restaurant) {
@@ -21,8 +25,8 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="App__body">
-          <Map handleSelected={this.handleSelected.bind(this)}/>
-          <Panel selectedRestaurant={this.state.selectedRestaurant}/>
+          <Map handleSelected={this.handleSelected}/>
+          <Panel selectedRestaurant={this.state.selectedRestaurant} handleSelected={this.handleSelected}/>
         </div>
       </div>
     );
