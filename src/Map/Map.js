@@ -15,19 +15,22 @@ const baseMarker = new L.Icon({
 });
 
 class Map extends Component {
-  state = {
-    location: {
-      lat: 5.4342245,
-      lng: 100.3919285
-    },
-    baseMarkerLocation: {
-      lat: 0,
-      lng: 100.3919285
-    },
-    restaurants: Restaurants.getRestaurants(),
-    hasUsersLocation: false,
-    zoom: 2
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: {
+        lat: 5.4342245,
+        lng: 100.3919285
+      },
+      baseMarkerLocation: {
+        lat: 0,
+        lng: 100.3919285
+      },
+      restaurants: Restaurants.getRestaurants(),
+      hasUsersLocation: false,
+      zoom: 2
+    };
+  }
 
   // If geolocation service is available, ask for user's permission to get current location, and set map's location
   // If permission denied, get approximate location through ip address using https://ipapi.co/json api
@@ -87,7 +90,7 @@ class Map extends Component {
   }
 
   handleMarkerClicked(restaurant) {
-    
+    this.props.handleSelected(restaurant);
   }
 
   render() {
@@ -128,7 +131,7 @@ class Map extends Component {
               draggable="true" 
               position={[lat, lng]} 
               icon={baseMarker}
-              onClick={this.handleMarkerClicked.bind(this,restaurant)}
+              onClick={this.handleMarkerClicked.bind(this, restaurant)}
             >
               <Popup>
                 <b>{restaurant.name}</b>

@@ -11,17 +11,17 @@ class Panel extends Component {
 
   render() {
     const restaurants = Restaurants.getRestaurants();
-    const defaultRestaurant = restaurants[2];
 
     return (
       <div className="Panel">
-        <SearchResults restaurantsList = {restaurants}/>
+        {
+          this.props.selectedRestaurant ?
+          <RestaurantDescription restaurant = {this.props.selectedRestaurant}/>:
+          <SearchResults restaurantsList = {restaurants}/>
+        }
       </div>
     );
   }
 }
 
 export default Panel
-
-// 
-// <RestaurantDescription restaurant = {defaultRestaurant}/>

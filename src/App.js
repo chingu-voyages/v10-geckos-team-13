@@ -6,13 +6,23 @@ import Panel from './Panel/Panel';
 import Navbar from './Navbar/Navbar';
 
 class App extends Component {
+  state = {
+    selectedRestaurant: null
+  }
+
+  handleSelected(restaurant) {
+    this.setState({
+      selectedRestaurant: restaurant
+    })
+  }
+
   render () {
     return (
       <div className="App">
         <Navbar />
         <div className="App__body">
-          <Map />
-          <Panel />
+          <Map handleSelected={this.handleSelected.bind(this)}/>
+          <Panel selectedRestaurant={this.state.selectedRestaurant}/>
         </div>
       </div>
     );
