@@ -17,6 +17,8 @@ const baseMarker = new L.Icon({
 class Map extends Component {
   constructor(props) {
     super(props);
+    this.handleMoveend = this.handleMoveend.bind(this);
+    this.handleMarkerDragend = this.handleMarkerDragend.bind(this);
     this.state = {
       location: {
         lat: 5.4342245,
@@ -30,6 +32,7 @@ class Map extends Component {
       hasUsersLocation: false,
       zoom: 2
     };
+    this.previousBounds = null;
   }
 
   // If geolocation service is available, ask for user's permission to get current location, and set map's location
@@ -77,7 +80,12 @@ class Map extends Component {
 
   handleMoveend() {
     const bounds = this.refs.map.leafletElement.getBounds();
-    // console.log(bounds);
+    if (!bounds.equals(this.previousBounds)) {
+      this.previousBounds = bounds;
+      this.setState({
+        restaurants: Restaurants.getRestaurants(bounds)
+      });
+    }
   }
 
   handleMarkerDragend() {
@@ -103,7 +111,7 @@ class Map extends Component {
         className="Map" 
         center={position} 
         zoom={this.state.zoom}
-        onMoveend={this.handleMoveend.bind(this)}
+        onMoveend={this.handleMoveend}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -114,7 +122,7 @@ class Map extends Component {
           <Marker 
             ref="baseMarker"
             draggable="true" 
-            onDragend={this.handleMarkerDragend.bind(this)}
+            onDragend={this.handleMarkerDragend}
             position={baseMarkerPosition} 
             icon={baseMarker}
           >

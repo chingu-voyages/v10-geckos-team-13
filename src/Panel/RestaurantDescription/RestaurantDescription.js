@@ -13,8 +13,8 @@ class RestaurantDescription extends Component {
           alt={"Photo of " + restaurant.name}
           className="RestaurantDescription__img"
         />
-        {restaurant.openingHours.map( i => {
-          return <p>{i}</p>
+        {restaurant.openingHours.map( (openingHour, index) => {
+          return <p key={index}>{openingHour}</p>
         })}
         <p><b>Address: </b>{restaurant.address}</p>
         <p>
@@ -31,6 +31,7 @@ class RestaurantDescription extends Component {
         {restaurant.menuImgs.map( (imgUrl, index) => {
           return (
             <img 
+              key={index}
               src={imgUrl}
               alt={"Menu index " + index}
               className="RestaurantDescription__img"

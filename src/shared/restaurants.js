@@ -1,5 +1,3 @@
-import L from 'leaflet';
-
 class Restaurant {
   /**
    * Restaurant Constructor
@@ -58,8 +56,13 @@ class Restaurants {
     return restaurants.find(restaurant => restaurant.id === id);
   }
 
-  static getRestaurants() {
-    return restaurants.slice();
+  static getRestaurants(bounds) {
+    // !!! add range search logic here
+    if (bounds) {
+      return restaurants.filter(restaurant => bounds.contains(restaurant.coords));
+    } else {
+      return restaurants.slice();
+    }
   }
 
   static addRestaurant(restaurant) {
