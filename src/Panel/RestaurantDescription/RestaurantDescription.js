@@ -3,11 +3,20 @@ import './RestaurantDescription.css';
 
 // import Restaurants from '../../shared/restaurants';
 class RestaurantDescription extends Component {
+  constructor(props) {
+    super(props);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  handleEdit() {
+    this.props.handleSelected(this.props.restaurant, true);
+  }
+
   render() {
     const restaurant = this.props.restaurant;
     return (
       <div className="RestaurantDescription">
-        <button onClick={this.props.handleBack}>back</button>
+        <button onClick={this.props.handleBack}>Back</button>
         <h2>{restaurant.name}</h2>
         <img 
           src={restaurant.imgUrl} 
@@ -39,6 +48,7 @@ class RestaurantDescription extends Component {
             />
           );
         })}
+        <button onClick={this.handleEdit}>Edit</button>
       </div>
     );
   }

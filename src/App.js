@@ -9,14 +9,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRestaurant: null
+      selectedRestaurant: null,
+      editMode: true
     }
     this.handleSelected = this.handleSelected.bind(this);
   }
 
-  handleSelected(restaurant) {
+  handleSelected(restaurant, editMode=false) {
     this.setState({
-      selectedRestaurant: restaurant
+      selectedRestaurant: restaurant,
+      editMode: editMode
     })
   }
 
@@ -26,7 +28,11 @@ class App extends Component {
         <Navbar />
         <div className="App__body">
           <Map handleSelected={this.handleSelected}/>
-          <Panel selectedRestaurant={this.state.selectedRestaurant} handleSelected={this.handleSelected}/>
+          <Panel 
+            editMode = {this.state.editMode}
+            selectedRestaurant={this.state.selectedRestaurant} 
+            handleSelected={this.handleSelected}
+          />
         </div>
       </div>
     );

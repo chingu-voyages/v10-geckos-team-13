@@ -4,14 +4,22 @@ import './SearchResults.css';
 import SearchResultsItem from './SearchResultsItem/SearchResultsItem';
 
 class SearchResults extends Component {
+  constructor(props) {
+    super(props);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
   handleSelected(restaurant) {
     this.props.handleSelected(restaurant);
+  }
+
+  handleAdd() {
+    this.props.handleSelected(null, true);
   }
 
   render() {
     return (
       <div className="SearchResults">
-        <h3>Search Results</h3>
         {this.props.restaurantsList.map(restaurant => {
           return (
             <SearchResultsItem 
@@ -21,6 +29,11 @@ class SearchResults extends Component {
             />
           );
         })}
+        <p className="SearchResults__add-restaurant" onClick={this.handleAdd}>
+          Don't see the result you want?
+          <br />
+          Add a restaurant yourself!
+        </p>
       </div>
     );
   }
