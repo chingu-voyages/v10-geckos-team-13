@@ -21,6 +21,20 @@ class Restaurant {
   }
 }
 
+// const restaurantSchema = {
+//   restaurant_id: String,
+//   restaurant_name: String,
+//   restaurant_img: String,
+//   restaurant_openingHours: [String],
+//   restaurant_address: String,
+//   restaurant_coords: {
+//     lat: Number,
+//     lng: Number
+//   },
+//   restaurant_website: String,
+//   restaurant_menuImgs: [String]
+// };
+
 const restaurants = [
   new Restaurant(
     "Royaltea",
