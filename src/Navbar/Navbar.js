@@ -9,6 +9,6 @@ export default class Navbar extends Component {
         <h1 className="Navbar__brand">Menu, Please</h1>
         <SearchBar />
       </div>
-    )
+    );
   }
 }
