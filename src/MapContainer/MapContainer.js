@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './Map.css';
+import './MapContainer.css';
 
 import L from 'leaflet';
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
 import Restaurants from '../shared/restaurants';
 
@@ -14,7 +14,7 @@ const baseMarker = new L.Icon({
   iconSize: [25, 41]
 });
 
-class Map extends Component {
+class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.handleMoveend = this.handleMoveend.bind(this);
@@ -106,9 +106,9 @@ class Map extends Component {
     const baseMarkerPosition = [this.state.baseMarkerLocation.lat, this.state.baseMarkerLocation.lng];
     
     return (
-      <LeafletMap 
+      <Map
         ref="map" 
-        className="Map" 
+        className="MapContainer" 
         center={position} 
         zoom={this.state.zoom}
         onMoveend={this.handleMoveend}
@@ -147,9 +147,9 @@ class Map extends Component {
             </Marker>
           );
         })}
-      </LeafletMap>
+      </Map>
     );
   }
 }
 
-export default Map;
+export default MapContainer;

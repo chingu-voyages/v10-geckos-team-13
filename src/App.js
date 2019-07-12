@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Map from './Map/Map';
+import MapContainer from './MapContainer/MapContainer';
 import Panel from './Panel/Panel';
 import Navbar from './Navbar/Navbar';
 
@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       selectedRestaurant: null,
-      editMode: true
+      editMode: false
     }
     this.handleSelected = this.handleSelected.bind(this);
   }
@@ -27,7 +27,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="App__body">
-          <Map handleSelected={this.handleSelected}/>
+          <MapContainer handleSelected={this.handleSelected}/>
           <Panel 
             editMode = {this.state.editMode}
             selectedRestaurant={this.state.selectedRestaurant} 
