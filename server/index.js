@@ -20,10 +20,10 @@ app.use(
 );
 app.use(bodyParser.json());
 // Connect to Mongoose and set connection variable
-mongoose.connect(
-  "mongodb+srv://v10-geckos-team-13:Irbcei6tSYiyZ1TQ@cluster0-wgfx8.mongodb.net/restaurants?retryWrites=true&w=majority",
-  { useNewUrlParser: true }
-);
+var database_url =
+  process.env.DATABASE_URL || "mongodb://localhost:27017/restaurants";
+console.log(database_url);
+mongoose.connect(database_url, { useNewUrlParser: true });
 
 var db = mongoose.connection;
 
