@@ -32,3 +32,17 @@ exports.new = function(req, res) {
       });
   });
 };
+
+// Handle view restaurant info
+exports.view = function(req, res) {
+  Restaurant.findOne({ restaurant_id: req.params.restaurant_id }, function(
+    err,
+    restaurant
+  ) {
+    if (err) res.send(err);
+    res.json({
+      message: "Restaurant details",
+      data: restaurant
+    });
+  });
+};

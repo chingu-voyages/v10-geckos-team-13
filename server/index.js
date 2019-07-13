@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 // Connect to Mongoose and set connection variable
 var database_url =
   process.env.DATABASE_URL || "mongodb://localhost:27017/restaurants";
-console.log(database_url);
 mongoose.connect(database_url, { useNewUrlParser: true });
 
 var db = mongoose.connection;
