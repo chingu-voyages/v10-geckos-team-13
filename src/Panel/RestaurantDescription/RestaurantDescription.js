@@ -24,7 +24,7 @@ class RestaurantDescription extends Component {
           className="RestaurantDescription__img"
         />
         {restaurant.openingHours.map( (openingHour, index) => {
-          return <p key={index}>{openingHour}</p>
+          return <p key={index}>{openingHour.days} {openingHour.hours}</p>
         })}
         <p><b>Address: </b>{restaurant.address}</p>
         <p>
