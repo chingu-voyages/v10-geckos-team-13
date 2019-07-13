@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       selectedRestaurant: null,
-      editMode: true
+      editMode: false
     }
     this.handleSelected = this.handleSelected.bind(this);
   }

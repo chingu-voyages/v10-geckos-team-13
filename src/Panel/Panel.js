@@ -12,6 +12,7 @@ class Panel extends Component {
     super(props);
     this.handleSelected = this.handleSelected.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   handleBack() {
@@ -22,27 +23,37 @@ class Panel extends Component {
     this.props.handleSelected(restaurant, editMode);
   }
 
+  handleToggle() {
+    const panel = this.refs.panel;
+    panel.classList.toggle('Panel__toggle');
+  }
+
   render() {
     const restaurants = Restaurants.getRestaurants();
     const selectedRestaurant = this.props.selectedRestaurant;
 
     return (
-      <div className="Panel">
-        {
-          this.props.editMode ?
-          <RestaurantForm restaurant = {selectedRestaurant}/>: (
-            selectedRestaurant ? 
-            <RestaurantDescription 
-              restaurant = {selectedRestaurant} 
-              handleBack = {this.handleBack}
-              handleSelected = {this.handleSelected}
-            />:
-            <SearchResults 
-              restaurantsList = {restaurants} 
-              handleSelected = {this.handleSelected}
-            />
-          )
-        }
+      <div className="Panel" ref="panel">
+        <div className="Panel__button" onClick={this.handleToggle}>
+          <i className="fas fa-caret-right fa-2x" />
+        </div>
+        <div className="Panel__container">
+          {
+            this.props.editMode ?
+            <RestaurantForm restaurant = {selectedRestaurant}/>: (
+              selectedRestaurant ? 
+              <RestaurantDescription 
+                restaurant = {selectedRestaurant} 
+                handleBack = {this.handleBack}
+                handleSelected = {this.handleSelected}
+              />:
+              <SearchResults 
+                restaurantsList = {restaurants} 
+                handleSelected = {this.handleSelected}
+              />
+            )
+          }
+        </div>
       </div>
     );
   }
