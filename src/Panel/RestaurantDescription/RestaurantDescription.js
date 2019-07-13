@@ -33,6 +33,7 @@ class RestaurantDescription extends Component {
             href={restaurant.website}
             target="_blank"
             rel="noopener noreferrer"
+            className="dont-break-out"
           >
             {restaurant.website}
           </a>
