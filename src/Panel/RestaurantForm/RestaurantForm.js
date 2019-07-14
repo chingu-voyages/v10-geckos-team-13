@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './RestaurantForm.css';
 
 import { Restaurant } from '../../shared/restaurants';
+// import GeocodingService from '../../shared/geocoder';
 
 class RestaurantForm extends Component {
   constructor(props) {
@@ -40,6 +41,10 @@ class RestaurantForm extends Component {
   }
 
   render() {
+    // const address = "23, lorong mesra permai 8, taman mesra permai, 13400, butterworth, penang, malaysia"
+    // GeocodingService.geocode(address).then(res=>console.log(res)).catch(err=>console.log(err));
+    // const coords = {lat: 5.42992, lng: 100.39401};
+    // GeocodingService.reverseGeocode(coords).then(res=>console.log(res.data.Response.View)).catch(err=>console.log(err));
     const restaurant = this.state.restaurant;
 
     // check for valid images, set state
