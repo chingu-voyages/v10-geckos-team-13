@@ -15,6 +15,7 @@ var restaurantSchema = mongoose.Schema({
   restaurant_website: String,
   restaurant_menuImgs: [String]
 });
+
 // Export Contact model
 var Restaurant = (module.exports = mongoose.model(
   "restaurant",

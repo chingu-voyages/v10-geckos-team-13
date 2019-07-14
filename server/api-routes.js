@@ -16,6 +16,8 @@ router
   .get(restaurantController.index)
   .post(restaurantController.new);
 
+router.route("/restaurants/search").get(restaurantController.search);
+
 router.route("/restaurants/:restaurant_id").get(restaurantController.view);
 
 // Export API routes

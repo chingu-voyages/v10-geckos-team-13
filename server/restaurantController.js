@@ -46,3 +46,19 @@ exports.view = function(req, res) {
     });
   });
 };
+
+// Handle search
+exports.search = function(req, res) {
+  Restaurant.find(
+    {
+      restaurant_name: { $regex: req.query.q, $options: "i" }
+    },
+    function(err, restaurants) {
+      if (err) res.send(err);
+      res.json({
+        message: "Search result",
+        data: restaurants
+      });
+    }
+  );
+};
