@@ -4,3 +4,9 @@
   margin: 0;
   z-index: 10;
 }
+
+.MapContainer__restaurant-marker:hover {
+  content:url("/assets/images/restaurant-icon-hover.png");
+}
+
+
