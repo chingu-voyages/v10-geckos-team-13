@@ -10,16 +10,32 @@ class App extends Component {
     super(props);
     this.state = {
       selectedRestaurant: null,
-      editMode: false
+      editMode: false,
+      showQueryMarker: false,
+      queriedCoords: {
+        lat: 0,
+        lng: 0
+      }
     }
-    this.handleSelected = this.handleSelected.bind(this);
   }
 
-  handleSelected(restaurant, editMode=false) {
+  handleSelected = (restaurant, editMode=false) => {
     this.setState({
       selectedRestaurant: restaurant,
       editMode: editMode
-    })
+    });
+  }
+
+  handleToggleQueryMarker = (bool) => {
+    this.setState({
+      showQueryMarker: bool
+    });
+  }
+
+  handleQueryCoords = (coords) => {
+    this.setState({
+      queriedCoords: coords
+    });
   }
 
   render () {
@@ -27,11 +43,17 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="App__body">
-          <MapContainer handleSelected={this.handleSelected}/>
+          <MapContainer 
+            showQueryMarker={this.state.showQueryMarker}
+            handleSelected={this.handleSelected}
+            handleQueryCoords={this.handleQueryCoords}
+          />
           <Panel 
             editMode = {this.state.editMode}
             selectedRestaurant={this.state.selectedRestaurant} 
+            queriedCoords={this.state.queriedCoords}
             handleSelected={this.handleSelected}
+            handleToggleQueryMarker={this.handleToggleQueryMarker}
           />
         </div>
       </div>

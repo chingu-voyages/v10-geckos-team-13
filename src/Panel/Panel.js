@@ -40,7 +40,11 @@ class Panel extends Component {
         <div className="Panel__container">
           {
             this.props.editMode ?
-            <RestaurantForm restaurant = {selectedRestaurant}/>: (
+            <RestaurantForm 
+              restaurant = {selectedRestaurant} 
+              queriedCoords = {this.props.queriedCoords}
+              handleToggleQueryMarker = {this.props.handleToggleQueryMarker}
+            />: (
               selectedRestaurant ? 
               <RestaurantDescription 
                 restaurant = {selectedRestaurant} 

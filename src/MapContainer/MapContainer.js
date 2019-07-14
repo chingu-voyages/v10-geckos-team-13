@@ -11,7 +11,8 @@ const queryMarker = new L.Icon({
   iconRetinaUrl: "/assets/images/query-icon.png",
   iconAnchor: [25, 50],
   popupAnchor: [0, -48],
-  iconSize: [50, 50]
+  iconSize: [50, 50],
+  className: "MapContainer__query-marker"
 });
 
 // asset from https://www.mappity.org/ color: #e4007c
@@ -33,7 +34,7 @@ class MapContainer extends Component {
         lng: 100.3919285
       },
       queryMarkerLocation: {
-        lat: 0,
+        lat: 5.4342245,
         lng: 100.3919285
       },
       restaurants: Restaurants.getRestaurants(),
@@ -96,12 +97,14 @@ class MapContainer extends Component {
     }
   };
 
-  handleMarkerDragend = () => {
+  handleQueryMarkerDragend = () => {
     const marker = this.refs.queryMarker;
+    const coordinates = marker.leafletElement.getLatLng();
     if (marker) {
       this.setState({
-        queryMarkerLocation: marker.leafletElement.getLatLng()
+        queryMarkerLocation: coordinates
       })
+      this.props.handleQueryCoords(coordinates);
     }
   };
 
@@ -133,11 +136,11 @@ class MapContainer extends Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {
-          this.state.hasUsersLocation ? 
+          this.state.hasUsersLocation && this.props.showQueryMarker ? 
           <Marker 
             ref="queryMarker"
             draggable="true" 
-            onDragend={this.handleMarkerDragend}
+            onDragend={this.handleQueryMarkerDragend}
             position={queryMarkerPosition} 
             icon={queryMarker}
           >
@@ -157,7 +160,6 @@ class MapContainer extends Component {
               onClick={this.handleMarkerClicked.bind(this, restaurant)}
               onMouseOver={this.handleMarkerMouseOver}
               onMouseOut={this.handleMarkerMouseOut}
-              className="MapContainer__marker"
             >
               <Popup>
                 <b>{restaurant.name}</b>

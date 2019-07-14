@@ -16,6 +16,14 @@ class RestaurantForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.handleToggleQueryMarker(true);
+  }
+
+  componentWillUnmount() {
+    this.props.handleToggleQueryMarker(false);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
   }
@@ -126,6 +134,9 @@ class RestaurantForm extends Component {
             value={restaurant.address}
             onChange={this.handleChange}
           />
+        </div>
+        <div className="RestaurantForm__group">
+          <label htmlFor="coordinates">{this.props.queriedCoords.lat}, {this.props.queriedCoords.lng}</label>
         </div>
         <div className="RestaurantForm__group">
           <label htmlFor="website">Website</label>
