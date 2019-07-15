@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 
 import { Restaurant } from "../../shared/restaurants";
-// import GeocodingService from '../../shared/geocoder';
+import GeocodingService from "../../shared/geocoder";
 
 class RestaurantForm extends Component {
   constructor(props) {
@@ -82,12 +82,25 @@ class RestaurantForm extends Component {
     });
   };
 
+  handleGetAddress = () => {
+    const queriedCoords = this.props.queriedCoords;
+    if (queriedCoords.lat === 0 && queriedCoords.lng === 0) return;
+    const restaurant = { ...this.state.restaurant };
+    GeocodingService.reverseGeocode(queriedCoords)
+      .then(address => {
+        restaurant.address = address;
+        this.setState({
+          restaurant: restaurant
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
-    // const address = "23, lorong mesra permai 8, taman mesra permai, 13400, butterworth, penang, malaysia"
-    // GeocodingService.geocode(address).then(res=>console.log(res)).catch(err=>console.log(err));
     // const coords = {lat: 5.42992, lng: 100.39401};
     // GeocodingService.reverseGeocode(coords).then(res=>console.log(res.data.Response.View)).catch(err=>console.log(err));
     const restaurant = this.state.restaurant;
+    const queriedCoords = this.props.queriedCoords;
 
     // check for valid images, set state
     const isValidImg = new Promise((resolve, reject) => {
@@ -198,9 +211,12 @@ class RestaurantForm extends Component {
             onChange={this.handleChange}
             required
           />
-          <Form.Text className="text-muted">
-            {this.props.queriedCoords.lat.toFixed(5)},{" "}
-            {this.props.queriedCoords.lng.toFixed(5)}
+          <Form.Text
+            className="RestaurantForm__text-link"
+            onClick={this.handleGetAddress}
+          >
+            Use marker coordinates: ({queriedCoords.lat.toFixed(5)},{" "}
+            {queriedCoords.lng.toFixed(5)})
           </Form.Text>
         </Form.Group>
         <Form.Group controlId="website">
