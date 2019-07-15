@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 
-import { Restaurant } from "../../shared/restaurants";
+import Restaurants, { Restaurant } from "../../shared/restaurants";
 import GeocodingService from "../../shared/geocoder";
 
 class RestaurantForm extends Component {
@@ -26,8 +26,8 @@ class RestaurantForm extends Component {
   };
 
   handleSubmit = event => {
-    console.log(this.state.restaurant);
     event.preventDefault();
+    Restaurants.addRestaurant(this.state.restaurant);
   };
 
   handleChange = event => {
@@ -89,6 +89,7 @@ class RestaurantForm extends Component {
     GeocodingService.reverseGeocode(queriedCoords)
       .then(address => {
         restaurant.address = address;
+        restaurant.coords = { ...queriedCoords };
         this.setState({
           restaurant: restaurant
         });
