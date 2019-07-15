@@ -28,6 +28,7 @@ class RestaurantForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     Restaurants.addRestaurant(this.state.restaurant);
+    this.props.handleBack();
   };
 
   handleChange = event => {
@@ -240,7 +241,12 @@ class RestaurantForm extends Component {
             </Button>
           </Col>
           <Col>
-            <Button variant="secondary" block type="button">
+            <Button
+              variant="secondary"
+              block
+              type="button"
+              onClick={this.props.handleBack}
+            >
               Cancel
             </Button>
           </Col>
