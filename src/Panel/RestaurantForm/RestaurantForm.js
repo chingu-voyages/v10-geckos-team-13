@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
-import './RestaurantForm.css';
+import React, { Component } from "react";
+import "./RestaurantForm.css";
 
-import { Restaurant } from '../../shared/restaurants';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+
+import { Restaurant } from "../../shared/restaurants";
 // import GeocodingService from '../../shared/geocoder';
 
 class RestaurantForm extends Component {
@@ -13,7 +17,7 @@ class RestaurantForm extends Component {
     this.state = {
       restaurant: this.props.restaurant || new Restaurant(),
       validImg: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -25,11 +29,12 @@ class RestaurantForm extends Component {
   }
 
   handleSubmit(event) {
+    console.log(this.state.restaurant);
     event.preventDefault();
   }
 
   handleChange(event) {
-    const restaurant = {...this.state.restaurant};
+    const restaurant = { ...this.state.restaurant };
     restaurant[event.target.name] = event.target.value;
     this.setState({
       restaurant: restaurant
@@ -38,9 +43,14 @@ class RestaurantForm extends Component {
 
   handleHoursChange(event) {
     const index = event.target.getAttribute("data-key");
-    const restaurant = {...this.state.restaurant};
-    const openingHours = [...restaurant.openingHours.map(openingHour => { return {...openingHour} })];
-    while (index > openingHours.length-1) openingHours.push({days: '', hours: ''});
+    const restaurant = { ...this.state.restaurant };
+    const openingHours = [
+      ...restaurant.openingHours.map(openingHour => {
+        return { ...openingHour };
+      })
+    ];
+    while (index > openingHours.length - 1)
+      openingHours.push({ days: "", hours: "" });
     openingHours[index][event.target.name] = event.target.value;
     restaurant.openingHours = openingHours;
     this.setState({
@@ -61,96 +71,130 @@ class RestaurantForm extends Component {
       const img = new Image();
       img.onerror = () => {
         reject();
-      }
+      };
       img.onload = () => {
         resolve();
-      }
+      };
       img.src = restaurant.imgUrl;
     });
-    isValidImg.then(() => {
-      if (!this.state.validImg) this.setState({validImg: true});
-    }).catch(() => {
-      if (this.state.validImg) this.setState({validImg: false});
-    });
+    isValidImg
+      .then(() => {
+        if (!this.state.validImg) this.setState({ validImg: true });
+      })
+      .catch(() => {
+        if (this.state.validImg) this.setState({ validImg: false });
+      });
 
     return (
-      <form className="RestaurantForm" autoComplete="off" onSubmit={this.handleSubmit}>
-        <div className="RestaurantForm__group">
-          <label htmlFor="restaurantName">Restaurant Name</label>
-          <input 
-            type="text" 
+      <Form
+        className="RestaurantForm"
+        autoComplete="off"
+        onSubmit={this.handleSubmit}
+      >
+        <Form.Group controlId="restaurantName">
+          <Form.Label className="bold">Restaurant Name</Form.Label>
+          <Form.Control
+            type="text"
             name="name"
-            id="restaurantName" 
-            className="RestaurantForm__input" 
-            value={restaurant.name} 
+            value={restaurant.name}
             onChange={this.handleChange}
+            required
           />
-        </div>
-        <div className="RestaurantForm__group">
-          <label htmlFor="restaurantImage">Restaurant Image</label>
-          {this.state.validImg ? <img src={restaurant.imgUrl} alt={restaurant.name} className="RestaurantForm__img"/>: ''}
-          <input 
-            type="text" 
+        </Form.Group>
+        <Form.Group controlId="restaurantImage">
+          <Form.Label className="bold">Restaurant Image</Form.Label>
+          {this.state.validImg ? (
+            <img
+              src={restaurant.imgUrl}
+              alt={restaurant.name}
+              className="RestaurantForm__img"
+            />
+          ) : (
+            ""
+          )}
+          <Form.Control
+            type="text"
             name="imgUrl"
-            id="restaurantImage" 
-            className="RestaurantForm__input"
-            value={restaurant.imgUrl} 
+            value={restaurant.imgUrl}
             onChange={this.handleChange}
           />
-        </div>
-        <div className="RestaurantForm__group">
-          <label>Opening Hours</label>
-          {(restaurant.openingHours.length!==0 ? restaurant.openingHours : [" "]).map((openingHour, index) => {
+        </Form.Group>
+        <Form.Group>
+          <Form.Label className="bold">Opening Hours</Form.Label>
+          {(restaurant.openingHours.length !== 0
+            ? restaurant.openingHours
+            : [" "]
+          ).map((openingHour, index) => {
             return (
-              <div key={index}>
-                <input 
-                  data-key={index}
-                  type="text" 
-                  name="days"
-                  className="RestaurantForm__input--left" 
-                  value={openingHour.days}
-                  onChange={this.handleHoursChange}
-                />
-                <input 
-                  data-key={index}
-                  type="text" 
-                  name="hours"
-                  className="RestaurantForm__input--right" 
-                  value={openingHour.hours}
-                  onChange={this.handleHoursChange}
-                />
-              </div>
+              <Form.Row key={index}>
+                <Col lg={5}>
+                  <Form.Control
+                    data-key={index}
+                    type="text"
+                    name="days"
+                    value={openingHour.days}
+                    onChange={this.handleHoursChange}
+                    required
+                  />
+                </Col>
+                <Col lg={5}>
+                  <Form.Control
+                    data-key={index}
+                    type="text"
+                    name="hours"
+                    value={openingHour.hours}
+                    onChange={this.handleHoursChange}
+                    required
+                  />
+                </Col>
+                <Col lg={2}>
+                  <Button variant="danger">X</Button>
+                </Col>
+              </Form.Row>
             );
           })}
-          
-        </div>
-        <div className="RestaurantForm__group">
-          <label htmlFor="address">Address</label>
-          <input 
-            type="text" 
+        </Form.Group>
+        <Form.Group controlId="address">
+          <Form.Label className="bold">Address</Form.Label>
+          <Form.Control
+            type="text"
             name="address"
-            id="address" 
-            className="RestaurantForm__input"
             value={restaurant.address}
             onChange={this.handleChange}
+            required
           />
-        </div>
-        <div className="RestaurantForm__group">
-          <label htmlFor="coordinates">{this.props.queriedCoords.lat}, {this.props.queriedCoords.lng}</label>
-        </div>
-        <div className="RestaurantForm__group">
-          <label htmlFor="website">Website</label>
-          <input 
-            type="text" 
+          <Form.Text className="text-muted">
+            {this.props.queriedCoords.lat.toFixed(5)},{" "}
+            {this.props.queriedCoords.lng.toFixed(5)}
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="website">
+          <Form.Label className="bold">Website</Form.Label>
+          <Form.Control
+            type="url"
             name="website"
-            id="website" 
-            className="RestaurantForm__input"
             value={restaurant.website}
             onChange={this.handleChange}
           />
-        </div>
-        <button className="RestaurantForm__submit" type="submit">Save</button>
-      </form>
+        </Form.Group>
+        <Form.Row>
+          <Col>
+            <Button variant="success" block type="submit">
+              Save
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="danger" block type="button">
+              Delete
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="secondary" block type="button">
+              Cancel
+            </Button>
+          </Col>
+        </Form.Row>
+      </Form>
     );
   }
 }

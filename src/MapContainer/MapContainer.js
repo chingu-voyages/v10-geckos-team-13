@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import './MapContainer.css';
+import React, { Component } from "react";
+import "./MapContainer.css";
 
-import L from 'leaflet';
+import L from "leaflet";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
-import Restaurants from '../shared/restaurants';
+import Restaurants from "../shared/restaurants";
 
 const queryMarker = new L.Icon({
   iconUrl: "/assets/images/query-icon.png",
@@ -50,7 +50,10 @@ class MapContainer extends Component {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          const [lat, lng] = [position.coords.latitude, position.coords.longitude];
+          const [lat, lng] = [
+            position.coords.latitude,
+            position.coords.longitude
+          ];
           this.setState({
             location: {
               lat: lat,
@@ -64,8 +67,8 @@ class MapContainer extends Component {
             zoom: 18
           });
         },
-        (err) => {
-          fetch('https://ipapi.co/json')
+        err => {
+          fetch("https://ipapi.co/json")
             .then(res => res.json())
             .then(location => {
               const [lat, lng] = [location.latitude, location.longitude];
@@ -103,59 +106,61 @@ class MapContainer extends Component {
     if (marker) {
       this.setState({
         queryMarkerLocation: coordinates
-      })
+      });
       this.props.handleQueryCoords(coordinates);
     }
   };
 
-  handleMarkerClicked = (restaurant) => {
+  handleMarkerClicked = restaurant => {
     this.props.handleSelected(restaurant);
-  }
+  };
 
-  handleMarkerMouseOver = (event) => {
+  handleMarkerMouseOver = event => {
     event.target.openPopup();
-  }
+  };
 
-  handleMarkerMouseOut = (event) => {
+  handleMarkerMouseOut = event => {
     event.target.closePopup();
-  }
+  };
 
   render() {
     const position = [this.state.location.lat, this.state.location.lng];
-    const queryMarkerPosition = [this.state.queryMarkerLocation.lat, this.state.queryMarkerLocation.lng];
-    
+    const queryMarkerPosition = [
+      this.state.queryMarkerLocation.lat,
+      this.state.queryMarkerLocation.lng
+    ];
+
     return (
       <Map
-        ref="map" 
-        className="MapContainer" 
-        center={position} 
+        ref="map"
+        className="MapContainer"
+        center={position}
         zoom={this.state.zoom}
         onMoveend={this.handleMoveend}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {
-          this.state.hasUsersLocation && this.props.showQueryMarker ? 
-          <Marker 
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {this.state.hasUsersLocation && this.props.showQueryMarker ? (
+          <Marker
             ref="queryMarker"
-            draggable="true" 
+            draggable="true"
             onDragend={this.handleQueryMarkerDragend}
-            position={queryMarkerPosition} 
+            position={queryMarkerPosition}
             icon={queryMarker}
           >
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              Drag to pinpoint <br /> new restaurant location.
             </Popup>
-          </Marker> : ''
-        }
+          </Marker>
+        ) : (
+          ""
+        )}
         {this.state.restaurants.map(restaurant => {
-          const {lat, lng} = restaurant.coords;
+          const { lat, lng } = restaurant.coords;
           return (
-            <Marker 
+            <Marker
               key={restaurant.id}
-              draggable="true" 
-              position={[lat, lng]} 
+              draggable="true"
+              position={[lat, lng]}
               icon={restaurantMarker}
               onClick={this.handleMarkerClicked.bind(this, restaurant)}
               onMouseOver={this.handleMarkerMouseOver}
