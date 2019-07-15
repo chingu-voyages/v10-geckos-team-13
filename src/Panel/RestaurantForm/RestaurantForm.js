@@ -25,12 +25,6 @@ class RestaurantForm extends Component {
     this.props.handleToggleQueryMarker(false);
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    Restaurants.addRestaurant(this.state.restaurant);
-    this.props.handleBack();
-  };
-
   handleChange = event => {
     const restaurant = { ...this.state.restaurant };
     restaurant[event.target.name] = event.target.value;
@@ -96,6 +90,21 @@ class RestaurantForm extends Component {
         });
       })
       .catch(err => console.log(err));
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    Restaurants.addRestaurant(this.state.restaurant);
+    this.props.handleBack(this.state.restaurant);
+  };
+
+  handleDeleteRestaurant = () => {
+    Restaurants.deleteRestaurant(this.state.restaurant);
+    this.props.handleBack();
+  };
+
+  handleCancel = () => {
+    this.props.handleBack(this.state.restaurant);
   };
 
   render() {
@@ -236,7 +245,12 @@ class RestaurantForm extends Component {
             </Button>
           </Col>
           <Col>
-            <Button variant="danger" block type="button">
+            <Button
+              variant="danger"
+              block
+              type="button"
+              onClick={this.handleDeleteRestaurant}
+            >
               Delete
             </Button>
           </Col>
@@ -245,7 +259,7 @@ class RestaurantForm extends Component {
               variant="secondary"
               block
               type="button"
-              onClick={this.props.handleBack}
+              onClick={this.handleCancel}
             >
               Cancel
             </Button>

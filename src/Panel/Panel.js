@@ -43,7 +43,7 @@ class Panel extends Component {
               restaurant={selectedRestaurant}
               queriedCoords={this.props.queriedCoords}
               handleToggleQueryMarker={this.props.handleToggleQueryMarker}
-              handleBack={this.handleBack.bind(this, selectedRestaurant)}
+              handleBack={this.handleBack}
             />
           ) : selectedRestaurant ? (
             <RestaurantDescription
