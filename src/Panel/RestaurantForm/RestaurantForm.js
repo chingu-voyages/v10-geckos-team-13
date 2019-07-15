@@ -97,8 +97,6 @@ class RestaurantForm extends Component {
   };
 
   render() {
-    // const coords = {lat: 5.42992, lng: 100.39401};
-    // GeocodingService.reverseGeocode(coords).then(res=>console.log(res.data.Response.View)).catch(err=>console.log(err));
     const restaurant = this.state.restaurant;
     const queriedCoords = this.props.queriedCoords;
 
@@ -209,6 +207,7 @@ class RestaurantForm extends Component {
             name="address"
             value={restaurant.address}
             onChange={this.handleChange}
+            disabled
             required
           />
           <Form.Text
