@@ -91,6 +91,10 @@ class Restaurants {
     return restaurants.find(restaurant => restaurant.id === id);
   }
 
+  static getRestaurantIndex(restaurant) {
+    return restaurants.findIndex(r => r.id === restaurant.id);
+  }
+
   static getRestaurants(bounds) {
     // !!! add range search logic here
     if (bounds) {
@@ -103,7 +107,22 @@ class Restaurants {
   }
 
   static addRestaurant(restaurant) {
-    restaurants.push(restaurant);
+    const restaurantIndex = this.getRestaurantIndex(restaurant);
+    if (restaurantIndex < 0) {
+      restaurants.push(restaurant);
+    } else {
+      restaurants[restaurantIndex] = restaurant;
+    }
+  }
+
+  static deleteRestaurant(restaurant) {
+    const restaurantIndex = this.getRestaurantIndex(restaurant);
+    if (restaurantIndex < 0) {
+      return false;
+    } else {
+      restaurants.splice(restaurantIndex, 1);
+      return true;
+    }
   }
 }
 
