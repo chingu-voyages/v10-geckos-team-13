@@ -1,11 +1,16 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
 }
 
@@ -15,13 +20,17 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+.mb-sm {
+  margin-bottom: 5px;
+}
+
 .bold {
   font-weight: bold;
 }
 
 .text-overflow {
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
 }
 
@@ -31,7 +40,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Break long words and add hyphens where applicable */
 .dont-break-out {
-
   /* These are technically the same, but use both */
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -44,5 +52,4 @@ h1, h2, h3, h4, h5, h6 {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-
 }

@@ -3,14 +3,14 @@
   display: flex;
   top: 5%;
   right: 5%;
-  width: 25%;
+  width: 27%;
   height: 90%;
   z-index: 20;
   transition: 0.5s;
 }
 
 .Panel__toggle {
-  right: -25%;
+  right: -27%;
 }
 
 .Panel__button {
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: #112D4E;
+  background-color: #112d4e;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   margin-top: 20px;
   margin-left: -25px;
@@ -28,7 +28,7 @@
 }
 
 .Panel__container {
-  background-color: #DBE2EF;
+  background-color: #dbe2ef;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   width: 90%;
   height: 100%;
@@ -41,16 +41,16 @@
 .Panel__container::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 10px;
 }
 
 .Panel__container::-webkit-scrollbar {
   width: 10px;
-  background-color: #DBE2EF;
+  background-color: #dbe2ef;
 }
 
 .Panel__container::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #112D4E;
+  background-color: #112d4e;
 }

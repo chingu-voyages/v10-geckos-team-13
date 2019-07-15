@@ -6,6 +6,7 @@ import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
 import Restaurants from "../shared/restaurants";
 
+// asset from https://www.mappity.org/ color: #ffbb32
 const queryMarker = new L.Icon({
   iconUrl: "/assets/images/query-icon.png",
   iconRetinaUrl: "/assets/images/query-icon.png",

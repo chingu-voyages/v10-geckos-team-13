@@ -11,37 +11,34 @@ import { Restaurant } from "../../shared/restaurants";
 class RestaurantForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleHoursChange = this.handleHoursChange.bind(this);
     this.state = {
       restaurant: this.props.restaurant || new Restaurant(),
       validImg: false
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.handleToggleQueryMarker(true);
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this.props.handleToggleQueryMarker(false);
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     console.log(this.state.restaurant);
     event.preventDefault();
-  }
+  };
 
-  handleChange(event) {
+  handleChange = event => {
     const restaurant = { ...this.state.restaurant };
     restaurant[event.target.name] = event.target.value;
     this.setState({
       restaurant: restaurant
     });
-  }
+  };
 
-  handleHoursChange(event) {
+  handleHoursChange = event => {
     const index = event.target.getAttribute("data-key");
     const restaurant = { ...this.state.restaurant };
     const openingHours = [
@@ -49,14 +46,41 @@ class RestaurantForm extends Component {
         return { ...openingHour };
       })
     ];
-    while (index > openingHours.length - 1)
-      openingHours.push({ days: "", hours: "" });
     openingHours[index][event.target.name] = event.target.value;
     restaurant.openingHours = openingHours;
     this.setState({
       restaurant: restaurant
     });
-  }
+  };
+
+  handleDeleteHour = event => {
+    const index = event.target.getAttribute("data-key");
+    const restaurant = { ...this.state.restaurant };
+    const openingHours = [
+      ...restaurant.openingHours.map(openingHour => {
+        return { ...openingHour };
+      })
+    ];
+    openingHours.splice(index, 1);
+    restaurant.openingHours = openingHours;
+    this.setState({
+      restaurant: restaurant
+    });
+  };
+
+  handleAddHour = () => {
+    const restaurant = { ...this.state.restaurant };
+    const openingHours = [
+      ...restaurant.openingHours.map(openingHour => {
+        return { ...openingHour };
+      })
+    ];
+    openingHours.push({ days: "", hours: "" });
+    restaurant.openingHours = openingHours;
+    this.setState({
+      restaurant: restaurant
+    });
+  };
 
   render() {
     // const address = "23, lorong mesra permai 8, taman mesra permai, 13400, butterworth, penang, malaysia"
@@ -121,12 +145,9 @@ class RestaurantForm extends Component {
         </Form.Group>
         <Form.Group>
           <Form.Label className="bold">Opening Hours</Form.Label>
-          {(restaurant.openingHours.length !== 0
-            ? restaurant.openingHours
-            : [" "]
-          ).map((openingHour, index) => {
+          {restaurant.openingHours.map((openingHour, index) => {
             return (
-              <Form.Row key={index}>
+              <Form.Row key={index} className="mb-sm">
                 <Col lg={5}>
                   <Form.Control
                     data-key={index}
@@ -148,11 +169,25 @@ class RestaurantForm extends Component {
                   />
                 </Col>
                 <Col lg={2}>
-                  <Button variant="danger">X</Button>
+                  <Button
+                    data-key={index}
+                    variant="danger"
+                    type="button"
+                    onClick={this.handleDeleteHour}
+                  >
+                    X
+                  </Button>
                 </Col>
               </Form.Row>
             );
           })}
+          <Form.Row>
+            <Col>
+              <Button size="sm" onClick={this.handleAddHour}>
+                Add
+              </Button>
+            </Col>
+          </Form.Row>
         </Form.Group>
         <Form.Group controlId="address">
           <Form.Label className="bold">Address</Form.Label>
