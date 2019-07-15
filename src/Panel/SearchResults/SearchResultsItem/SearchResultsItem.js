@@ -14,8 +14,8 @@ class SearchResultsItem extends Component {
           />
         </div>
         <div className="SearchResultsItem__container--2">
-          <h3 className="text-overflow">{restaurant.name}</h3>
-          <p className="text-overflow">{restaurant.address}</p>
+          <p className="text-overflow bold no-margin">{restaurant.name}</p>
+          <p className="text-overflow no-margin">{restaurant.address}</p>
         </div>
         <hr />
       </div>
