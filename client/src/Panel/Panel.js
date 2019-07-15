@@ -1,51 +1,75 @@
-import React, { Component } from 'react';
-import './Panel.css';
+import React, { Component } from "react";
+import "./Panel.css";
 
-import Restaurants from '../shared/restaurants';
-
-import RestaurantDescription from './RestaurantDescription/RestaurantDescription';
-import SearchResults from './SearchResults/SearchResults';
-import RestaurantForm from './RestaurantForm/RestaurantForm';
+import RestaurantDescription from "./RestaurantDescription/RestaurantDescription";
+import SearchResults from "./SearchResults/SearchResults";
+import RestaurantForm from "./RestaurantForm/RestaurantForm";
 
 class Panel extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSelected = this.handleSelected.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-  }
+  handleBack = () => {
+    this.props.handleSelected(null, false, true, false);
+  };
 
-  handleBack() {
-    this.props.handleSelected(null, false);
-  }
+  handleSelected = (
+    restaurant,
+    editMode = false,
+    searchMode = false,
+    addMode = false
+  ) => {
+    this.props.handleSelected(restaurant, editMode, searchMode, addMode);
+  };
 
-  handleSelected(restaurant, editMode=false) {
-    this.props.handleSelected(restaurant, editMode);
-  }
+  handleToggle = () => {
+    const panel = this.refs.panel;
+    panel.classList.toggle("Panel__toggle");
+  };
 
   render() {
-    const restaurants = Restaurants.getRestaurants();
     const selectedRestaurant = this.props.selectedRestaurant;
-
+    const searchResults = this.props.searchResults;
     return (
-      <div className="Panel">
-        {
-          this.props.editMode ?
-          <RestaurantForm restaurant = {selectedRestaurant}/>: (
-            selectedRestaurant ? 
-            <RestaurantDescription 
-              restaurant = {selectedRestaurant} 
-              handleBack = {this.handleBack}
-              handleSelected = {this.handleSelected}
-            />:
-            <SearchResults 
-              restaurantsList = {restaurants} 
-              handleSelected = {this.handleSelected}
+      <div className="Panel" ref="panel">
+        <div className="Panel__button" onClick={this.handleToggle}>
+          <i className="fas fa-caret-right fa-2x" />
+        </div>
+        <div className="Panel__container">
+          {this.props.addMode && "Add Form"}
+          {this.props.editMode && "Edit Form"}
+          {this.props.searchMode && (
+            <SearchResults
+              restaurantsList={searchResults}
+              handleSelected={this.handleSelected}
             />
-          )
-        }
+          )}
+          {selectedRestaurant &&
+            !this.props.editMode &&
+            !this.props.searchMode &&
+            !this.props.addMode && (
+              <RestaurantDescription
+                restaurant={selectedRestaurant}
+                handleBack={this.handleBack}
+                handleSelected={this.handleSelected}
+              />
+            )}
+          {/* {
+            this.props.editMode ?
+            <RestaurantForm restaurant = {selectedRestaurant}/>: (
+              selectedRestaurant ? 
+              <RestaurantDescription 
+                restaurant = {selectedRestaurant} 
+                handleBack = {this.handleBack}
+                handleSelected = {this.handleSelected}
+              />:
+              <SearchResults 
+                restaurantsList = {restaurants} 
+                handleSelected = {this.handleSelected}
+              />
+            )
+          } */}
+        </div>
       </div>
     );
   }
 }
 
-export default Panel
+export default Panel;

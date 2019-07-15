@@ -1,31 +1,56 @@
 .Panel {
   position: absolute;
-  background-color: #DBE2EF;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  display: flex;
   top: 5%;
   right: 5%;
-  width: 22%;
+  width: 25%;
   height: 90%;
   z-index: 20;
-  padding: 10px 2.5%;
+  transition: 0.5s;
+}
+
+.Panel__toggle {
+  right: -25%;
+}
+
+.Panel__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #112D4E;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  margin-left: -25px;
+  width: 25px;
+  height: 60px;
+  color: white;
+}
+
+.Panel__container {
+  background-color: #DBE2EF;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  height: 100%;
+  padding: 10px 8%;
   overflow-y: scroll;
   text-align: left;
 }
 
 /* Scrollbar styling  (https://css-tricks.com/the-current-state-of-styling-scrollbars/) */
-.Panel::-webkit-scrollbar-track {
+.Panel__container::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #F5F5F5;
   border-radius: 10px;
 }
 
-.Panel::-webkit-scrollbar {
+.Panel__container::-webkit-scrollbar {
   width: 10px;
   background-color: #DBE2EF;
 }
 
-.Panel::-webkit-scrollbar-thumb {
+.Panel__container::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #112D4E;
 }

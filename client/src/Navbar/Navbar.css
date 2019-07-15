@@ -1,4 +1,6 @@
 .Navbar {
+  display: flex;
+  justify-content: space-between;
   height: 45px;
   background-color: #112D4E;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -11,4 +13,5 @@
   font-size: 1.5rem;
   padding-left: 1rem;
   width: 200px;
+  cursor: pointer;
 }

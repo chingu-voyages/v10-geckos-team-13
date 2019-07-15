@@ -1,6 +1,11 @@
+.SearchBar {
+    margin: auto 5px;
+}
+
 .SearchBar input {
     font-size: 1rem;
     border: none;
+    border-radius: 5px 0 0 5px ;
     padding: 0.5rem;
 }
 
@@ -9,5 +14,6 @@
     background: #ddd;
     font-size: 1rem;
     border: none;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
