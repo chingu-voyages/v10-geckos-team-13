@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-import MapContainer from './MapContainer/MapContainer';
-import Panel from './Panel/Panel';
-import Navbar from './Navbar/Navbar';
+import MapContainer from "./MapContainer/MapContainer";
+import Panel from "./Panel/Panel";
+import Navbar from "./Navbar/Navbar";
 
 class App extends Component {
   constructor(props) {
@@ -16,41 +16,41 @@ class App extends Component {
         lat: 0,
         lng: 0
       }
-    }
+    };
   }
 
-  handleSelected = (restaurant, editMode=false) => {
+  handleSelected = (restaurant, editMode = false) => {
     this.setState({
       selectedRestaurant: restaurant,
       editMode: editMode
     });
-  }
+  };
 
-  handleToggleQueryMarker = (bool) => {
+  handleToggleQueryMarker = bool => {
     this.setState({
       showQueryMarker: bool
     });
-  }
+  };
 
-  handleQueryCoords = (coords) => {
+  handleQueryCoords = coords => {
     this.setState({
       queriedCoords: coords
     });
-  }
+  };
 
-  render () {
+  render() {
     return (
       <div className="App">
         <Navbar />
         <div className="App__body">
-          <MapContainer 
+          <MapContainer
             showQueryMarker={this.state.showQueryMarker}
             handleSelected={this.handleSelected}
             handleQueryCoords={this.handleQueryCoords}
           />
-          <Panel 
-            editMode = {this.state.editMode}
-            selectedRestaurant={this.state.selectedRestaurant} 
+          <Panel
+            editMode={this.state.editMode}
+            selectedRestaurant={this.state.selectedRestaurant}
             queriedCoords={this.state.queriedCoords}
             handleSelected={this.handleSelected}
             handleToggleQueryMarker={this.handleToggleQueryMarker}
