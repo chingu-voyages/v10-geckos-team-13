@@ -104,7 +104,7 @@ class RestaurantForm extends Component {
   };
 
   handleCancel = () => {
-    this.props.handleBack(this.state.restaurant);
+    this.props.handleBack(Restaurants.getRestaurant(this.state.restaurant.id));
   };
 
   render() {
