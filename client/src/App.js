@@ -12,7 +12,11 @@ class App extends Component {
       searchResults: null,
       editMode: false,
       searchMode: false,
-      addMode: true
+      addMode: true,
+      queriedCoords: {
+        lat: 0,
+        lng: 0
+      }
     };
   }
 
@@ -59,12 +63,21 @@ class App extends Component {
     });
   };
 
+  handleQueryCoords = coords => {
+    this.setState({
+      queriedCoords: coords
+    });
+  };
+
   render() {
     return (
       <div className="App">
         <Navbar handleSearchInput={this.handleSearchInput} />
         <div className="App__body">
-          <MapContainer handleSelected={this.handleSelected} />
+          <MapContainer
+            handleSelected={this.handleSelected}
+            handleQueryCoords={this.handleQueryCoords}
+          />
           <Panel
             editMode={this.state.editMode}
             searchMode={this.state.searchMode}
@@ -72,6 +85,7 @@ class App extends Component {
             selectedRestaurant={this.state.selectedRestaurant}
             searchResults={this.state.searchResults}
             handleSelected={this.handleSelected}
+            queriedCoords={this.state.queriedCoords}
           />
         </div>
       </div>

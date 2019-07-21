@@ -74,6 +74,8 @@ class MapContainer extends Component {
             hasUsersLocation: true,
             zoom: 18
           });
+
+          this.props.handleQueryCoords(this.state.baseMarkerLocation);
         },
         () => {
           fetch("https://ipapi.co/json")
@@ -92,6 +94,8 @@ class MapContainer extends Component {
                 hasUsersLocation: true,
                 zoom: 8
               });
+
+              this.props.handleQueryCoords(this.state.baseMarkerLocation);
             });
         }
       );
@@ -100,10 +104,14 @@ class MapContainer extends Component {
 
   handleMarkerDragend = () => {
     const marker = this.refs.baseMarker;
+    const coordinates = marker.leafletElement.getLatLng();
+
     if (marker) {
       this.setState({
-        baseMarkerLocation: marker.leafletElement.getLatLng()
+        baseMarkerLocation: coordinates
       });
+
+      this.props.handleQueryCoords(coordinates);
     }
   };
 
@@ -149,7 +157,7 @@ class MapContainer extends Component {
             const { lat, lng } = restaurant.restaurant_coords;
             return (
               <Marker
-                key={restaurant.restaurant_id}
+                key={restaurant._id}
                 draggable="true"
                 position={[lat, lng]}
                 icon={restaurantMarker}

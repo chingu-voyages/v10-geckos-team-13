@@ -14,12 +14,17 @@ class RestaurantDescription extends Component {
         <button onClick={this.props.handleBack}>Back</button>
         <h2>{restaurant.restaurant_name}</h2>
         <img
-          src={restaurant.restaurant_img}
+          src={"http://localhost:8080/" + restaurant.restaurant_img}
           alt={"Photo of " + restaurant.restaurant_name}
           className="RestaurantDescription__img"
         />
+
         {restaurant.restaurant_openingHours.map((openingHour, index) => {
-          return <p key={index}>{openingHour}</p>;
+          return (
+            <p key={index}>
+              {openingHour.days} : {openingHour.hours}
+            </p>
+          );
         })}
         <p>
           <b>Address: </b>
@@ -44,7 +49,7 @@ class RestaurantDescription extends Component {
           return (
             <img
               key={index}
-              src={imgUrl}
+              src={"http://localhost:8080/" + imgUrl}
               alt={"Menu index " + index}
               className="RestaurantDescription__img"
             />
