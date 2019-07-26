@@ -40,6 +40,8 @@ app.get("/", (req, res) => res.send("Hello World with Express"));
 // Use Api routes in the App
 app.use("/api", apiRoutes);
 // Launch app to listen to specified port
+app.use(express.static(__dirname + "/public"));
+
 app.listen(port, function() {
   console.log("Running Server on port " + port);
 });

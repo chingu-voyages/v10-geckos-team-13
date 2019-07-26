@@ -2,10 +2,14 @@
 var mongoose = require("mongoose");
 // Setup schema
 var restaurantSchema = mongoose.Schema({
-  restaurant_id: String,
   restaurant_name: String,
   restaurant_img: String,
-  restaurant_openingHours: [String],
+  restaurant_openingHours: [
+    {
+      days: String,
+      hours: String
+    }
+  ],
   restaurant_address: String,
   restaurant_phone: String,
   restaurant_coords: {
