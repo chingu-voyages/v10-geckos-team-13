@@ -4,12 +4,16 @@ import "./SearchResultsItem.css";
 class SearchResultsItem extends Component {
   render() {
     const restaurant = this.props.restaurant;
+    const IMG_URL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:8080/"
+        : "https://menu-please-api.herokuapp.com/";
     return (
       <div className="SearchResultsItem" onClick={this.props.handleClicked}>
         <div className="SearchResultsItem__container--1 img-overflow">
           <img
             className="SearchResultsItem__img"
-            src={"http://localhost:8080/" + restaurant.restaurant_img}
+            src={IMG_URL + restaurant.restaurant_img}
             alt={"Photo of " + restaurant.restaurant_name}
           />
         </div>

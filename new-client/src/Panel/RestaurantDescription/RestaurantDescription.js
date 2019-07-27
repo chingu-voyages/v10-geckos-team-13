@@ -13,13 +13,17 @@ class RestaurantDescription extends Component {
 
   render() {
     const restaurant = this.props.restaurant;
+    const IMG_URL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:8080/"
+        : "https://menu-please-api.herokuapp.com/";
 
     return (
       <div className="RestaurantDescription">
         <button onClick={this.handleBack}>Back</button>
         <h2>{restaurant.restaurant_name}</h2>
         <img
-          src={"http://localhost:8080/" + restaurant.restaurant_img}
+          src={IMG_URL + restaurant.restaurant_img}
           alt={"Photo of " + restaurant.restaurant_name}
           className="RestaurantDescription__img"
         />
@@ -54,7 +58,7 @@ class RestaurantDescription extends Component {
           return (
             <img
               key={index}
-              src={"http://localhost:8080/" + imgUrl}
+              src={IMG_URL + imgUrl}
               alt={"Menu index " + index}
               className="RestaurantDescription__img"
             />

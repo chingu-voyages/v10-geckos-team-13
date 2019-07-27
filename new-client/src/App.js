@@ -29,7 +29,7 @@ class App extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants/search?q="
-        : "production-url";
+        : "https://menu-please-api.herokuapp.com/api/restaurants/search?q=";
     const results = await search(`${API_URL}${val}`);
     const searchResults = results;
 

@@ -47,7 +47,7 @@ class RestaurantAddForm extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants/"
-        : "production-url";
+        : "https://menu-please-api.herokuapp.com/api/restaurants/";
     const formData = new FormData();
 
     formData.append("selectedFile", this.state.selectedFile);

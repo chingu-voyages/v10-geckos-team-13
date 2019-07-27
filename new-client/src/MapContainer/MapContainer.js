@@ -51,7 +51,7 @@ class MapContainer extends Component {
       const API_URL =
         window.location.hostname === "localhost"
           ? "http://localhost:8080/api/restaurants"
-          : "production-url";
+          : "https://menu-please-api.herokuapp.com/api/restaurant";
 
       axios.get(API_URL).then(response => {
         this.setState({
@@ -66,7 +66,7 @@ class MapContainer extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants"
-        : "production-url";
+        : "https://menu-please-api.herokuapp.com/api/restaurant";
 
     axios.get(API_URL).then(response => {
       this.setState({
@@ -129,7 +129,7 @@ class MapContainer extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants"
-        : "production-url";
+        : "https://menu-please-api.herokuapp.com/api/restaurant";
 
     const bounds = this.refs.map.leafletElement.getBounds();
     if (!bounds.equals(this.previousBounds)) {
