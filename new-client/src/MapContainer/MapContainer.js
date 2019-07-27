@@ -159,6 +159,7 @@ class MapContainer extends Component {
 
   handleMarkerClicked = restaurant => {
     this.props.handleSelected(restaurant);
+    this.props.handleQueryCoords(restaurant.restaurant_coords);
   };
 
   handleMarkerMouseOver = event => {
