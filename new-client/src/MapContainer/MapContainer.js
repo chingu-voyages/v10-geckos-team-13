@@ -51,7 +51,7 @@ class MapContainer extends Component {
       const API_URL =
         window.location.hostname === "localhost"
           ? "http://localhost:8080/api/restaurants"
-          : "https://menu-please-api.herokuapp.com/api/restaurant";
+          : "https://menu-please-api.herokuapp.com/api/restaurants";
 
       axios.get(API_URL).then(response => {
         this.setState({
@@ -66,7 +66,7 @@ class MapContainer extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants"
-        : "https://menu-please-api.herokuapp.com/api/restaurant";
+        : "https://menu-please-api.herokuapp.com/api/restaurants";
 
     axios.get(API_URL).then(response => {
       this.setState({
