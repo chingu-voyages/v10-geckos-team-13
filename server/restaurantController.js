@@ -112,7 +112,7 @@ exports.search = function(req, res) {
 
 exports.update = function(req, res) {
   upload(req, res, function(err) {
-    console.log(req.files);
+    //console.log(req.files);
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err);
     } else if (err) {
