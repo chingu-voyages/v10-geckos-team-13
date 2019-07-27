@@ -46,6 +46,20 @@ class MapContainer extends Component {
     this.previousBounds = null;
   }
 
+  componentDidUpdate() {
+    if (this.props.handleRestaurantRefresh) {
+      const API_URL =
+        window.location.hostname === "localhost"
+          ? "http://localhost:8080/api/restaurants"
+          : "production-url";
+
+      axios.get(API_URL).then(response => {
+        this.setState({
+          restaurants: response.data.data
+        });
+      });
+    }
+  }
   // If geolocation service is available, ask for user's permission to get current location, and set map's location
   // If permission denied, get approximate location through ip address using https://ipapi.co/json api
   componentDidMount() {
@@ -79,6 +93,10 @@ class MapContainer extends Component {
             hasUsersLocation: true,
             zoom: 18
           });
+          this.props.handleQueryCoords({
+            lat: lat,
+            lng: lng
+          });
         },
         err => {
           fetch("https://ipapi.co/json")
@@ -96,6 +114,10 @@ class MapContainer extends Component {
                 },
                 hasUsersLocation: true,
                 zoom: 8
+              });
+              this.props.handleQueryCoords({
+                lat: lat,
+                lng: lng
               });
             });
         }
@@ -162,7 +184,10 @@ class MapContainer extends Component {
         zoom={this.state.zoom}
         onMoveend={this.handleMoveend}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
         {this.state.hasUsersLocation && this.props.showQueryMarker ? (
           <Marker
             ref="queryMarker"

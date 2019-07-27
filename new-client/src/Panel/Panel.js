@@ -14,6 +14,7 @@ class Panel extends Component {
     this.handleSelected = this.handleSelected.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.handleRestaurantRefresh = this.handleRestaurantRefresh.bind(this);
   }
 
   handleBack(selectedRestaurant = null) {
@@ -34,6 +35,10 @@ class Panel extends Component {
     panel.classList.toggle("Panel__toggle");
   }
 
+  handleRestaurantRefresh(refresh = false) {
+    this.props.handleRestaurantRefresh(refresh);
+  }
+
   render() {
     //const restaurants = Restaurants.getRestaurants();
     const selectedRestaurant = this.props.selectedRestaurant;
@@ -45,12 +50,14 @@ class Panel extends Component {
           <i className="fas fa-caret-right fa-2x" />
         </div>
         <div className="Panel__container">
+          {this.props.editMode && <h1>Edit Mode</h1>}
           {this.props.addMode && (
             <RestaurantAddForm
               queriedCoords={this.props.queriedCoords}
               handleToggleQueryMarker={this.props.handleToggleQueryMarker}
               handleBack={this.handleBack}
               handleSelected={this.handleSelected}
+              handleRestaurantRefresh={this.handleRestaurantRefresh}
             />
           )}
           {this.props.searchMode && (

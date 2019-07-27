@@ -20,7 +20,8 @@ class App extends Component {
       queriedCoords: {
         lat: 0,
         lng: 0
-      }
+      },
+      refresh: false
     };
   }
 
@@ -78,6 +79,15 @@ class App extends Component {
     });
   };
 
+  handleRestaurantRefresh = refresh => {
+    this.setState({
+      refresh: refresh
+    });
+    this.setState({
+      refresh: false
+    });
+  };
+
   render() {
     return (
       <div className="App">
@@ -87,6 +97,7 @@ class App extends Component {
             showQueryMarker={this.state.showQueryMarker}
             handleSelected={this.handleSelected}
             handleQueryCoords={this.handleQueryCoords}
+            handleRestaurantRefresh={this.state.refresh}
           />
           <Panel
             editMode={this.state.editMode}
@@ -97,6 +108,7 @@ class App extends Component {
             queriedCoords={this.state.queriedCoords}
             handleSelected={this.handleSelected}
             handleToggleQueryMarker={this.handleToggleQueryMarker}
+            handleRestaurantRefresh={this.handleRestaurantRefresh}
           />
         </div>
       </div>

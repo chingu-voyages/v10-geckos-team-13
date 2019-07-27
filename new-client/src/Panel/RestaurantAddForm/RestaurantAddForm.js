@@ -64,6 +64,7 @@ class RestaurantAddForm extends Component {
     axios.post(url, formData).then(response => {
       //console.log(response.data.data);
       this.props.handleSelected(response.data.data, false, false, false);
+      this.props.handleRestaurantRefresh(true);
     });
   };
 
