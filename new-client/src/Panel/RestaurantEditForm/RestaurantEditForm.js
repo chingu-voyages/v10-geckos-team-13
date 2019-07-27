@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./RestaurantAddForm.css";
+import "./RestaurantEditForm.css";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -8,10 +8,11 @@ import axios from "axios";
 
 import GeocodingService from "../../shared/geocoder";
 
-class RestaurantAddForm extends Component {
+class RestaurantEditForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      restaurantId: "",
       restaurantName: "",
       restaurantAddress: "",
       restaurantPhone: "",
@@ -23,11 +24,20 @@ class RestaurantAddForm extends Component {
   }
 
   componentDidMount = () => {
-    this.props.handleToggleQueryMarker(true);
+    //this.props.handleToggleQueryMarker(true);
+
+    this.setState({
+      restaurantId: this.props.restaurant._id,
+      restaurantName: this.props.restaurant.restaurant_name,
+      restaurantAddress: this.props.restaurant.restaurant_address,
+      restaurantPhone: this.props.restaurant.restaurant_phone,
+      restaurantWebsite: this.props.restaurant.restaurant_website,
+      openingHours: this.props.restaurant.restaurant_openingHours
+    });
   };
 
   componentWillUnmount = () => {
-    this.props.handleToggleQueryMarker(false);
+    //this.props.handleToggleQueryMarker(false);
   };
 
   handleChange = event => {
@@ -52,8 +62,10 @@ class RestaurantAddForm extends Component {
 
     formData.append("selectedFile", this.state.selectedFile);
 
-    for (var x = 0; x < this.state.menuFiles.length; x++) {
-      formData.append("selectedFile", this.state.menuFiles[x]);
+    if (this.state.menuFiles !== null) {
+      for (var x = 0; x < this.state.menuFiles.length; x++) {
+        formData.append("selectedFile", this.state.menuFiles[x]);
+      }
     }
 
     //formData.append("selectedFile", this.state.file);
@@ -64,10 +76,25 @@ class RestaurantAddForm extends Component {
     formData.append("openingHours", JSON.stringify(this.state.openingHours));
     formData.append("coords", JSON.stringify(queriedCoords));
 
-    axios.post(API_URL, formData).then(response => {
-      //console.log(response.data.data);
-      this.props.handleSelected(response.data.data, false, false, false);
+    axios
+      .put(`${API_URL}${this.state.restaurantId}`, formData)
+      .then(response => {
+        //console.log(response.data.data);
+        this.props.handleSelected(response.data.data, false, false, false);
+        this.props.handleRestaurantRefresh(true);
+      });
+  };
+
+  handleDeleteRestaurant = () => {
+    //Restaurants.deleteRestaurant(this.state.restaurant);
+    const API_URL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:8080/api/restaurants/"
+        : "production-url";
+
+    axios.delete(`${API_URL}${this.state.restaurantId}`).then(response => {
       this.props.handleRestaurantRefresh(true);
+      this.props.handleBack(null);
     });
   };
 
@@ -265,7 +292,17 @@ class RestaurantAddForm extends Component {
               type="button"
               onClick={this.handleSubmit}
             >
-              Save
+              Update
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              variant="danger"
+              block
+              type="button"
+              onClick={this.handleDeleteRestaurant}
+            >
+              Delete
             </Button>
           </Col>
           <Col>
@@ -284,4 +321,4 @@ class RestaurantAddForm extends Component {
   }
 }
 
-export default RestaurantAddForm;
+export default RestaurantEditForm;

@@ -208,6 +208,7 @@ class MapContainer extends Component {
           return (
             <Marker
               key={restaurant._id}
+              ref="restaurantMarker"
               position={[lat, lng]}
               icon={restaurantMarker}
               onClick={this.handleMarkerClicked.bind(this, restaurant)}

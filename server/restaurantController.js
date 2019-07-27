@@ -50,23 +50,23 @@ exports.index = function(req, res) {
 };
 
 // Handle create restaurant actions
-exports.new = function(req, res) {
-  var restaurant = new Restaurant(req.body);
-  // save the contact and check for errors
-  restaurant.save(function(err) {
-    // Check for validation error
-    if (err) res.json(err);
-    else
-      res.json({
-        message: "New restaurant created!",
-        data: restaurant
-      });
-  });
-};
+// exports.new = function(req, res) {
+//   var restaurant = new Restaurant(req.body);
+//   // save the contact and check for errors
+//   restaurant.save(function(err) {
+//     // Check for validation error
+//     if (err) res.json(err);
+//     else
+//       res.json({
+//         message: "New restaurant created!",
+//         data: restaurant
+//       });
+//   });
+// };
 
 // Handle view restaurant info
 exports.view = function(req, res) {
-  Restaurant.findOne({ restaurant_id: req.params.restaurant_id }, function(
+  Restaurant.findOne({ _id: req.params.restaurant_id }, function(
     err,
     restaurant
   ) {
@@ -76,6 +76,22 @@ exports.view = function(req, res) {
       data: restaurant
     });
   });
+};
+
+// Handle delete contact
+exports.delete = function(req, res) {
+  Restaurant.deleteOne(
+    {
+      _id: req.params.restaurant_id
+    },
+    function(err, restaurant) {
+      if (err) res.send(err);
+      res.json({
+        status: "success",
+        message: "restaurant deleted"
+      });
+    }
+  );
 };
 
 // Handle search
@@ -94,7 +110,52 @@ exports.search = function(req, res) {
   );
 };
 
-exports.photo = function(req, res) {
+exports.update = function(req, res) {
+  upload(req, res, function(err) {
+    console.log(req.files);
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err);
+    } else if (err) {
+      return res.status(500).json(err);
+    }
+
+    //console.log(req.params.restaurant_id);
+    Restaurant.findById(req.params.restaurant_id, function(err, restaurant) {
+      if (err) res.send(err);
+
+      if (req.files.length > 0) {
+        restaurant.restaurant_img = req.files[0].filename;
+      }
+
+      restaurant.restaurant_name = req.body.restaurantName;
+      restaurant.restaurant_address = req.body.restaurantAddress;
+      restaurant.restaurant_phone = req.body.restaurantPhone;
+      restaurant.restaurant_website = req.body.restaurantWebsite;
+      restaurant.restaurant_openingHours = JSON.parse(req.body.openingHours);
+      restaurant.restaurant_coords = JSON.parse(req.body.coords);
+
+      var menu = [];
+      for (var x = 1; x < req.files.length; x++) {
+        menu.push(req.files[x].filename);
+      }
+
+      if (menu.length > 0) {
+        restaurant.restaurant_menuImgs = menu;
+      }
+
+      // save the contact and check for errors
+      restaurant.save(function(err) {
+        if (err) res.json(err);
+        res.json({
+          message: "Restaurant Info updated",
+          data: restaurant
+        });
+      });
+    });
+  });
+};
+
+exports.new = function(req, res) {
   upload(req, res, function(err) {
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err);
@@ -119,7 +180,6 @@ exports.photo = function(req, res) {
     restaurant.restaurant_menuImgs = menu;
 
     restaurant.save(function(err) {
-      // Check for validation error
       if (err) res.json(err);
       else
         res.json({
@@ -127,7 +187,5 @@ exports.photo = function(req, res) {
           data: restaurant
         });
     });
-
-    //return res.status(200).send("File uploaded!");
   });
 };

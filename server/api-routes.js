@@ -18,9 +18,12 @@ router
 
 router.route("/restaurants/search").get(restaurantController.search);
 
-router.route("/restaurants/upload").post(restaurantController.photo);
-
-router.route("/restaurants/:restaurant_id").get(restaurantController.view);
+router
+  .route("/restaurants/:restaurant_id")
+  .get(restaurantController.view)
+  .delete(restaurantController.delete)
+  .patch(restaurantController.update)
+  .put(restaurantController.update);
 
 // Export API routes
 module.exports = router;

@@ -5,7 +5,7 @@ import "./Panel.css";
 
 import RestaurantDescription from "./RestaurantDescription/RestaurantDescription";
 import SearchResults from "./SearchResults/SearchResults";
-//import RestaurantForm from "./RestaurantForm/RestaurantForm";
+import RestaurantEditForm from "./RestaurantEditForm/RestaurantEditForm";
 import RestaurantAddForm from "./RestaurantAddForm/RestaurantAddForm";
 
 class Panel extends Component {
@@ -50,7 +50,16 @@ class Panel extends Component {
           <i className="fas fa-caret-right fa-2x" />
         </div>
         <div className="Panel__container">
-          {this.props.editMode && <h1>Edit Mode</h1>}
+          {this.props.editMode && (
+            <RestaurantEditForm
+              restaurant={selectedRestaurant}
+              queriedCoords={this.props.queriedCoords}
+              //handleToggleQueryMarker={this.props.handleToggleQueryMarker}
+              handleBack={this.handleBack}
+              handleSelected={this.handleSelected}
+              handleRestaurantRefresh={this.handleRestaurantRefresh}
+            />
+          )}
           {this.props.addMode && (
             <RestaurantAddForm
               queriedCoords={this.props.queriedCoords}
