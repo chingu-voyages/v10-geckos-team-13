@@ -129,7 +129,7 @@ class MapContainer extends Component {
     const API_URL =
       window.location.hostname === "localhost"
         ? "http://localhost:8080/api/restaurants"
-        : "https://menu-please-api.herokuapp.com/api/restaurant";
+        : "https://menu-please-api.herokuapp.com/api/restaurants";
 
     const bounds = this.refs.map.leafletElement.getBounds();
     if (!bounds.equals(this.previousBounds)) {
