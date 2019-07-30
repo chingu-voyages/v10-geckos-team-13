@@ -48,8 +48,8 @@ exports.index = function(req, res) {
 };
 
 const BUCKET_NAME = "menu-please";
-const IAM_USER_KEY = "";
-const IAM_USER_SECRET = "";
+const IAM_USER_KEY = process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
 
 // Handle view restaurant info
 exports.view = function(req, res) {
@@ -169,35 +169,35 @@ exports.new = function(req, res) {
         } else {
           ResponseData.push(data);
           if (ResponseData.length == file.length) {
-            // res.json({
-            //   error: false,
-            //   Message: "File Uploaded SuccessFully",
-            //   Data: ResponseData
-            // });
-            var restaurant = new Restaurant();
-            restaurant.restaurant_img = req.files[0].filename;
-            restaurant.restaurant_name = req.body.restaurantName;
-            restaurant.restaurant_address = req.body.restaurantAddress;
-            restaurant.restaurant_phone = req.body.restaurantPhone;
-            restaurant.restaurant_website = req.body.restaurantWebsite;
-            restaurant.restaurant_openingHours = JSON.parse(
-              req.body.openingHours
-            );
-            restaurant.restaurant_coords = JSON.parse(req.body.coords);
-            var menu = [];
-            for (var x = 1; x < req.files.length; x++) {
-              menu.push(req.files[x].filename);
-            }
-            restaurant.restaurant_menuImgs = menu;
-
-            restaurant.save(function(err) {
-              if (err) res.json(err);
-              else
-                res.json({
-                  message: "New restaurant created!",
-                  data: restaurant
-                });
+            res.json({
+              error: false,
+              Message: "File Uploaded SuccessFully",
+              Data: ResponseData
             });
+            // var restaurant = new Restaurant();
+            // restaurant.restaurant_img = req.files[0].filename;
+            // restaurant.restaurant_name = req.body.restaurantName;
+            // restaurant.restaurant_address = req.body.restaurantAddress;
+            // restaurant.restaurant_phone = req.body.restaurantPhone;
+            // restaurant.restaurant_website = req.body.restaurantWebsite;
+            // restaurant.restaurant_openingHours = JSON.parse(
+            //   req.body.openingHours
+            // );
+            // restaurant.restaurant_coords = JSON.parse(req.body.coords);
+            // var menu = [];
+            // for (var x = 1; x < req.files.length; x++) {
+            //   menu.push(req.files[x].filename);
+            // }
+            // restaurant.restaurant_menuImgs = menu;
+
+            // restaurant.save(function(err) {
+            //   if (err) res.json(err);
+            //   else
+            //     res.json({
+            //       message: "New restaurant created!",
+            //       data: restaurant
+            //     });
+            // });
           }
         }
       });
