@@ -99,44 +99,73 @@ exports.search = function(req, res) {
 
 exports.update = function(req, res) {
   upload(req, res, function(err) {
-    //console.log(req.files);
-    if (err instanceof multer.MulterError) {
-      return res.status(500).json(err);
-    } else if (err) {
-      return res.status(500).json(err);
-    }
+    const file = req.files;
 
-    //console.log(req.params.restaurant_id);
-    Restaurant.findById(req.params.restaurant_id, function(err, restaurant) {
-      if (err) res.send(err);
+    let s3bucket = new AWS.S3({
+      accessKeyId: IAM_USER_KEY,
+      secretAccessKey: IAM_USER_SECRET,
+      Bucket: BUCKET_NAME,
+      region: "ap-southeast-1"
+    });
 
-      if (req.files.length > 0) {
-        restaurant.restaurant_img = req.files[0].filename;
-      }
+    var ResponseData = [];
 
-      restaurant.restaurant_name = req.body.restaurantName;
-      restaurant.restaurant_address = req.body.restaurantAddress;
-      restaurant.restaurant_phone = req.body.restaurantPhone;
-      restaurant.restaurant_website = req.body.restaurantWebsite;
-      restaurant.restaurant_openingHours = JSON.parse(req.body.openingHours);
-      restaurant.restaurant_coords = JSON.parse(req.body.coords);
+    file.map(item => {
+      var params = {
+        Bucket: "menu-please/uploads",
+        Key: item.filename,
+        Body: fs.createReadStream(item.path),
+        ACL: "public-read"
+      };
+      s3bucket.upload(params, function(err, data) {
+        if (err) {
+          res.json({ error: true, Message: err });
+        } else {
+          ResponseData.push(data);
+          if (ResponseData.length == file.length) {
+            // res.json({
+            //   error: false,
+            //   Message: "File Uploaded SuccessFully",
+            //   Data: ResponseData
+            // });
+            Restaurant.findById(req.params.restaurant_id, function(
+              err,
+              restaurant
+            ) {
+              if (err) res.send(err);
 
-      var menu = [];
-      for (var x = 1; x < req.files.length; x++) {
-        menu.push(req.files[x].filename);
-      }
+              if (req.files.length > 0) {
+                restaurant.restaurant_img = req.files[0].filename;
+              }
 
-      if (menu.length > 0) {
-        restaurant.restaurant_menuImgs = menu;
-      }
+              restaurant.restaurant_name = req.body.restaurantName;
+              restaurant.restaurant_address = req.body.restaurantAddress;
+              restaurant.restaurant_phone = req.body.restaurantPhone;
+              restaurant.restaurant_website = req.body.restaurantWebsite;
+              restaurant.restaurant_openingHours = JSON.parse(
+                req.body.openingHours
+              );
+              restaurant.restaurant_coords = JSON.parse(req.body.coords);
 
-      // save the contact and check for errors
-      restaurant.save(function(err) {
-        if (err) res.json(err);
-        res.json({
-          message: "Restaurant Info updated",
-          data: restaurant
-        });
+              var menu = [];
+              for (var x = 1; x < req.files.length; x++) {
+                menu.push(req.files[x].filename);
+              }
+
+              if (menu.length > 0) {
+                restaurant.restaurant_menuImgs = menu;
+              }
+
+              restaurant.save(function(err) {
+                if (err) res.json(err);
+                res.json({
+                  message: "Restaurant Info updated",
+                  data: restaurant
+                });
+              });
+            });
+          }
+        }
       });
     });
   });
@@ -153,7 +182,6 @@ exports.new = function(req, res) {
       region: "ap-southeast-1"
     });
 
-    //Where you want to store your file
     var ResponseData = [];
 
     file.map(item => {
@@ -202,30 +230,5 @@ exports.new = function(req, res) {
         }
       });
     });
-
-    // var restaurant = new Restaurant();
-
-    // restaurant.restaurant_img = req.files[0].filename;
-    // restaurant.restaurant_name = req.body.restaurantName;
-    // restaurant.restaurant_address = req.body.restaurantAddress;
-    // restaurant.restaurant_phone = req.body.restaurantPhone;
-    // restaurant.restaurant_website = req.body.restaurantWebsite;
-    // restaurant.restaurant_openingHours = JSON.parse(req.body.openingHours);
-    // restaurant.restaurant_coords = JSON.parse(req.body.coords);
-
-    // var menu = [];
-    // for (var x = 1; x < req.files.length; x++) {
-    //   menu.push(req.files[x].filename);
-    // }
-    // restaurant.restaurant_menuImgs = menu;
-
-    // restaurant.save(function(err) {
-    //   if (err) res.json(err);
-    //   else
-    //     res.json({
-    //       message: "New restaurant created!",
-    //       data: restaurant
-    //     });
-    // });
   });
 };
