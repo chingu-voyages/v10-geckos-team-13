@@ -53,6 +53,15 @@ class RestaurantEditForm extends Component {
   };
 
   handleSubmit = () => {
+    if (this.state.selectedFile == null || this.state.menuFiles == null) {
+      alert("images required");
+      return;
+    }
+
+    this.refs.updatebtn.setAttribute("disabled", "disabled");
+    this.refs.cancelbtn.setAttribute("disabled", "disabled");
+    this.refs.deletebtn.setAttribute("disabled", "disabled");
+
     const queriedCoords = this.props.queriedCoords;
     const API_URL =
       window.location.hostname === "localhost"
@@ -287,6 +296,7 @@ class RestaurantEditForm extends Component {
         <Form.Row>
           <Col>
             <Button
+              ref="updatebtn"
               variant="success"
               block
               type="button"
@@ -297,6 +307,7 @@ class RestaurantEditForm extends Component {
           </Col>
           <Col>
             <Button
+              ref="deletebtn"
               variant="danger"
               block
               type="button"
@@ -307,6 +318,7 @@ class RestaurantEditForm extends Component {
           </Col>
           <Col>
             <Button
+              ref="cancelbtn"
               variant="secondary"
               block
               type="button"
