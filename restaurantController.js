@@ -48,8 +48,8 @@ exports.index = function(req, res) {
 };
 
 const BUCKET_NAME = "menu-please";
-const IAM_USER_KEY = "AKIA5P7XX7KRHIWUYK4Y";
-const IAM_USER_SECRET = "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";
+const IAM_USER_KEY = "";
+const IAM_USER_SECRET = "";
 
 // Handle view restaurant info
 exports.view = function(req, res) {
