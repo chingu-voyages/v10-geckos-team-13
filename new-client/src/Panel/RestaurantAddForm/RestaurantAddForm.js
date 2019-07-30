@@ -43,6 +43,14 @@ class RestaurantAddForm extends Component {
   };
 
   handleSubmit = () => {
+    if (this.state.selectedFile == null || this.state.menuFiles == null) {
+      alert("images required");
+      return;
+    }
+
+    this.refs.savebtn.setAttribute("disabled", "disabled");
+    this.refs.cancelbtn.setAttribute("disabled", "disabled");
+
     const queriedCoords = this.props.queriedCoords;
     const API_URL =
       window.location.hostname === "localhost"
@@ -65,7 +73,7 @@ class RestaurantAddForm extends Component {
     formData.append("coords", JSON.stringify(queriedCoords));
 
     axios.post(API_URL, formData).then(response => {
-      //console.log(response.data.data);
+      //console.log(response);
       this.props.handleSelected(response.data.data, false, false, false);
       this.props.handleRestaurantRefresh(true);
     });
@@ -260,6 +268,7 @@ class RestaurantAddForm extends Component {
         <Form.Row>
           <Col>
             <Button
+              ref="savebtn"
               variant="success"
               block
               type="button"
@@ -270,6 +279,7 @@ class RestaurantAddForm extends Component {
           </Col>
           <Col>
             <Button
+              ref="cancelbtn"
               variant="secondary"
               block
               type="button"
