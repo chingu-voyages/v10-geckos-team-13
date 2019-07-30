@@ -160,7 +160,7 @@ exports.new = function(req, res) {
       var params = {
         Bucket: "menu-please/uploads",
         Key: item.filename,
-        Body: item.path,
+        Body: fs.createReadStream(item.path),
         ACL: "public-read"
       };
       s3bucket.upload(params, function(err, data) {
