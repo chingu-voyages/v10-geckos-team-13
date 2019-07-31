@@ -13,21 +13,11 @@ const storage = multer.diskStorage({
     cb(null, "public");
   },
   filename: (req, file, cb) => {
-    /*
-          uuidv4() will generate a random ID that we'll use for the
-          new filename. We use path.extname() to get
-          the extension from the original file name and add that to the new
-          generated ID. These combined will create the file name used
-          to save the file on the server and will be available as
-          req.file.pathname in the router handler.
-        */
     const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
     cb(null, newFilename);
   }
 });
 // create the multer instance that will be used to upload/save the file
-//const upload = multer({ storage });
-//const upload = multer({ storage });
 var upload = multer({ storage: storage }).array("selectedFile");
 
 // Handle index actions
@@ -67,15 +57,53 @@ exports.view = function(req, res) {
 
 // Handle delete contact
 exports.delete = function(req, res) {
-  Restaurant.deleteOne(
+  let images = [];
+  Restaurant.findOne(
     {
       _id: req.params.restaurant_id
     },
     function(err, restaurant) {
       if (err) res.send(err);
-      res.json({
-        status: "success",
-        message: "restaurant deleted"
+      images.push(restaurant.restaurant_img);
+      restaurant.restaurant_menuImgs.forEach(x => {
+        images.push(x);
+      });
+
+      let s3bucket = new AWS.S3({
+        accessKeyId: IAM_USER_KEY,
+        secretAccessKey: IAM_USER_SECRET,
+        Bucket: BUCKET_NAME,
+        region: "ap-southeast-1"
+      });
+
+      var ResponseData = [];
+
+      images.map(item => {
+        var params = {
+          Bucket: "menu-please/uploads",
+          Key: item
+        };
+        s3bucket.deleteObject(params, function(err, data) {
+          if (err) {
+            res.json({ error: true, Message: err });
+          } else {
+            ResponseData.push(data);
+            if (ResponseData.length == images.length) {
+              Restaurant.deleteOne(
+                {
+                  _id: req.params.restaurant_id
+                },
+                function(err, restaurant) {
+                  if (err) res.send(err);
+                  res.json({
+                    status: "success",
+                    message: "restaurant deleted"
+                  });
+                }
+              );
+            }
+          }
+        });
       });
     }
   );
@@ -123,46 +151,68 @@ exports.update = function(req, res) {
         } else {
           ResponseData.push(data);
           if (ResponseData.length == file.length) {
-            // res.json({
-            //   error: false,
-            //   Message: "File Uploaded SuccessFully",
-            //   Data: ResponseData
-            // });
             Restaurant.findById(req.params.restaurant_id, function(
               err,
               restaurant
             ) {
               if (err) res.send(err);
+              //delete previous images
+              let images = [];
+              images.push(restaurant.restaurant_img);
+              restaurant.restaurant_menuImgs.forEach(x => {
+                images.push(x);
+              });
 
-              if (req.files.length > 0) {
-                restaurant.restaurant_img = req.files[0].filename;
-              }
+              var ResponseData = [];
 
-              restaurant.restaurant_name = req.body.restaurantName;
-              restaurant.restaurant_address = req.body.restaurantAddress;
-              restaurant.restaurant_phone = req.body.restaurantPhone;
-              restaurant.restaurant_website = req.body.restaurantWebsite;
-              restaurant.restaurant_openingHours = JSON.parse(
-                req.body.openingHours
-              );
-              restaurant.restaurant_coords = JSON.parse(req.body.coords);
+              images.map(item => {
+                var params = {
+                  Bucket: "menu-please/uploads",
+                  Key: item
+                };
+                s3bucket.deleteObject(params, function(err, data) {
+                  if (err) {
+                    res.json({ error: true, Message: err });
+                  } else {
+                    ResponseData.push(data);
+                    if (ResponseData.length == images.length) {
+                      //save new restaurant
+                      //if (req.files.length > 0) {
+                      restaurant.restaurant_img = req.files[0].filename;
+                      //}
+                      restaurant.restaurant_name = req.body.restaurantName;
+                      restaurant.restaurant_address =
+                        req.body.restaurantAddress;
+                      restaurant.restaurant_phone = req.body.restaurantPhone;
+                      restaurant.restaurant_website =
+                        req.body.restaurantWebsite;
+                      restaurant.restaurant_openingHours = JSON.parse(
+                        req.body.openingHours
+                      );
+                      restaurant.restaurant_coords = JSON.parse(
+                        req.body.coords
+                      );
 
-              var menu = [];
-              for (var x = 1; x < req.files.length; x++) {
-                menu.push(req.files[x].filename);
-              }
+                      var menu = [];
+                      for (var x = 1; x < req.files.length; x++) {
+                        menu.push(req.files[x].filename);
+                      }
+                      //if (menu.length > 0) {
+                      restaurant.restaurant_menuImgs = menu;
+                      //}
 
-              if (menu.length > 0) {
-                restaurant.restaurant_menuImgs = menu;
-              }
-
-              restaurant.save(function(err) {
-                if (err) res.json(err);
-                res.json({
-                  message: "Restaurant Info updated",
-                  data: restaurant
+                      restaurant.save(function(err) {
+                        if (err) res.json(err);
+                        res.json({
+                          message: "Restaurant Info updated",
+                          data: restaurant
+                        });
+                      });
+                    }
+                  }
                 });
               });
+              //
             });
           }
         }
@@ -197,11 +247,6 @@ exports.new = function(req, res) {
         } else {
           ResponseData.push(data);
           if (ResponseData.length == file.length) {
-            // res.json({
-            //   error: false,
-            //   Message: "File Uploaded SuccessFully",
-            //   Data: ResponseData
-            // });
             var restaurant = new Restaurant();
             restaurant.restaurant_img = req.files[0].filename;
             restaurant.restaurant_name = req.body.restaurantName;
