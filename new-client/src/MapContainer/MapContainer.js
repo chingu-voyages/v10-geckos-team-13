@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import "./MapContainer.css";
+import React, { Component } from 'react';
+import './MapContainer.css';
 
-import L from "leaflet";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
-import axios from "axios";
+import L from 'leaflet';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import axios from 'axios';
 
 //import Restaurants from "../shared/restaurants";
 
 // asset from https://www.mappity.org/ color: #ffbb32
 const queryMarker = new L.Icon({
-  iconUrl: "/assets/images/query-icon.png",
-  iconRetinaUrl: "/assets/images/query-icon.png",
+  iconUrl: '/assets/images/query-icon.png',
+  iconRetinaUrl: '/assets/images/query-icon.png',
   iconAnchor: [25, 50],
   popupAnchor: [0, -48],
   iconSize: [50, 50],
-  className: "MapContainer__query-marker"
+  className: 'MapContainer__query-marker'
 });
 
 // asset from https://www.mappity.org/ color: #e4007c
 const restaurantMarker = new L.Icon({
-  iconUrl: "/assets/images/restaurant-icon.png",
-  iconRetinaUrl: "/assets/images/restaurant-icon.png",
+  iconUrl: '/assets/images/restaurant-icon.png',
+  iconRetinaUrl: '/assets/images/restaurant-icon.png',
   iconAnchor: [25, 50],
   popupAnchor: [0, -48],
   iconSize: [50, 50],
-  className: "MapContainer__restaurant-marker"
+  className: 'MapContainer__restaurant-marker'
 });
 
 class MapContainer extends Component {
@@ -49,9 +49,9 @@ class MapContainer extends Component {
   componentDidUpdate() {
     if (this.props.handleRestaurantRefresh) {
       const API_URL =
-        window.location.hostname === "localhost"
-          ? "http://localhost:8080/api/restaurants"
-          : "https://menu-please-api.herokuapp.com/api/restaurants";
+        window.location.hostname === 'localhost'
+          ? 'http://localhost:8080/api/restaurants'
+          : 'https://menu-please-api.herokuapp.com/api/restaurants';
 
       axios.get(API_URL).then(response => {
         this.setState({
@@ -59,14 +59,18 @@ class MapContainer extends Component {
         });
       });
     }
+
+    if (this.state.hasUsersLocation && this.props.showQueryMarker) {
+      this.refs.queryMarker.leafletElement.openPopup();
+    }
   }
   // If geolocation service is available, ask for user's permission to get current location, and set map's location
   // If permission denied, get approximate location through ip address using https://ipapi.co/json api
   componentDidMount() {
     const API_URL =
-      window.location.hostname === "localhost"
-        ? "http://localhost:8080/api/restaurants"
-        : "https://menu-please-api.herokuapp.com/api/restaurants";
+      window.location.hostname === 'localhost'
+        ? 'http://localhost:8080/api/restaurants'
+        : 'https://menu-please-api.herokuapp.com/api/restaurants';
 
     axios.get(API_URL).then(response => {
       this.setState({
@@ -74,7 +78,7 @@ class MapContainer extends Component {
       });
     });
 
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         position => {
           const [lat, lng] = [
@@ -99,7 +103,7 @@ class MapContainer extends Component {
           });
         },
         err => {
-          fetch("https://ipapi.co/json")
+          fetch('https://ipapi.co/json')
             .then(res => res.json())
             .then(location => {
               const [lat, lng] = [location.latitude, location.longitude];
@@ -113,7 +117,7 @@ class MapContainer extends Component {
                   lng: lng
                 },
                 hasUsersLocation: true,
-                zoom: 8
+                zoom: 18
               });
               this.props.handleQueryCoords({
                 lat: lat,
@@ -127,9 +131,9 @@ class MapContainer extends Component {
 
   handleMoveend = () => {
     const API_URL =
-      window.location.hostname === "localhost"
-        ? "http://localhost:8080/api/restaurants"
-        : "https://menu-please-api.herokuapp.com/api/restaurants";
+      window.location.hostname === 'localhost'
+        ? 'http://localhost:8080/api/restaurants'
+        : 'https://menu-please-api.herokuapp.com/api/restaurants';
 
     const bounds = this.refs.map.leafletElement.getBounds();
     if (!bounds.equals(this.previousBounds)) {
@@ -179,37 +183,39 @@ class MapContainer extends Component {
 
     return (
       <Map
-        ref="map"
-        className="MapContainer"
+        ref='map'
+        className='MapContainer'
         center={position}
         zoom={this.state.zoom}
         onMoveend={this.handleMoveend}
       >
         <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&amp;copy <a href="https://www.mapbox.com/">Mapbox</a>'
+          url='https://api.mapbox.com/styles/v1/geckosteam13/cjz36k06w02o11cmrw4juzvqw/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ2Vja29zdGVhbTEzIiwiYSI6ImNqejM2ZnlxZDAwOGczZ3A5MTY0NGI5NDYifQ.m9Z_FTDhfMK5uZ8aivIA5Q'
         />
         {this.state.hasUsersLocation && this.props.showQueryMarker ? (
           <Marker
-            ref="queryMarker"
-            draggable="true"
+            ref='queryMarker'
+            draggable='true'
             onDragend={this.handleQueryMarkerDragend}
             position={queryMarkerPosition}
             icon={queryMarker}
+            onMouseOver={this.handleMarkerMouseOver}
+            onMouseOut={this.handleMarkerMouseOut}
           >
             <Popup>
               Drag to pinpoint <br /> new restaurant location.
             </Popup>
           </Marker>
         ) : (
-          ""
+          ''
         )}
         {this.state.restaurants.map(restaurant => {
           const { lat, lng } = restaurant.restaurant_coords;
           return (
             <Marker
               key={restaurant._id}
-              ref="restaurantMarker"
+              ref='restaurantMarker'
               position={[lat, lng]}
               icon={restaurantMarker}
               onClick={this.handleMarkerClicked.bind(this, restaurant)}
