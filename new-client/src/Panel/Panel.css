@@ -1,16 +1,16 @@
 .Panel {
   position: absolute;
   display: flex;
-  top: 5%;
-  right: 5%;
-  width: 27%;
-  height: 90%;
+  top: 20px;
+  right: 20px;
+  width: 400px;
+  height: calc(100vh - 90px);
   z-index: 20;
-  transition: 0.5s;
+  transition: all 0.5s;
 }
 
 .Panel__toggle {
-  right: -27%;
+  right: -400px;
 }
 
 .Panel__button {
@@ -30,9 +30,9 @@
 .Panel__container {
   background-color: #dbe2ef;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  width: 90%;
+  width: 100%;
   height: 100%;
-  padding: 10px 8%;
+  padding: 20px 8%;
   overflow-y: scroll;
   text-align: left;
 }
