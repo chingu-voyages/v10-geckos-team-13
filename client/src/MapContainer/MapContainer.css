@@ -1,0 +1,15 @@
+.MapContainer {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  z-index: 10;
+}
+
+.MapContainer__query-marker:hover {
+  content:url("/assets/images/query-icon-hover.png");
+}
+
+.MapContainer__restaurant-marker:hover {
+  content:url("/assets/images/restaurant-icon-hover.png");
+}
+

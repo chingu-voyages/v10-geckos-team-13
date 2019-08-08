@@ -1,0 +1,26 @@
+.SearchResultsItem {
+  padding-top: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.SearchResultsItem:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.SearchResultsItem__container--2 {
+  display: inline-block;
+  width: 62.67%;
+  height: 50px;
+  margin-left: 3%;
+}
+
+.SearchResultsItem__container--1 {
+  display: inline-block;
+  width: 33.33%;
+  height: 50px;
+}
+
+.SearchResultsItem__img {
+  width: 100%;
+}
